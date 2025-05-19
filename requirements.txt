@@ -6,3 +6,5 @@ django-jazzmin
 Pillow
 django-ckeditor-5
 drf-yasg
+django-solo
+django-phonenumber-field[phonenumbers]

@@ -80,11 +80,14 @@ INSTALLED_APPS = [
     'corsheaders',
     'ckeditor',
     'ckeditor_uploader',
+    'solo',
     'site_settings',
     'about_page',
     'blog',
     'contact_page',
     'services',
+    'media_manager',
+    'slider'
 ]
 
 MIDDLEWARE = [
@@ -122,8 +125,12 @@ WSGI_APPLICATION = 'flarebit.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('PG_DB'),
+        'USER': os.getenv('PG_USER'),
+        'PASSWORD': os.getenv('PG_PASSWORD'),
+        'HOST': os.getenv('PG_HOST'),
+        'PORT': os.getenv('PG_PORT'),
     }
 }
 
@@ -177,7 +184,31 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'full',
         'height': 300,
         'width': '100%',
-    },
+        'removePlugins': 'stylesheetparser',
+        'allowedContent': True,
+        'toolbar_Basic': [
+            ['Source', '-', 'Bold', 'Italic']
+        ],
+        'toolbar_full': [
+            ['Styles', 'Format', 'Bold', 'Italic', 'Underline', 'Strike', 'SpellChecker', 'Undo', 'Redo'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Image', 'Flash', 'Table', 'HorizontalRule'],
+            ['TextColor', 'BGColor'],
+            ['Smiley', 'SpecialChar'], ['Source'],
+            ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+            ['NumberedList','BulletedList'],
+            ['Indent','Outdent'],
+            ['Maximize'],
+        ],
+        'extraPlugins': ','.join([
+            'uploadimage', # resim yükleme eklentisi
+            'image2', # gelişmiş resim özellikleri
+            'autolink', # URL'leri otomatik link yapma
+            'autoembed', # medya içeriği gömme
+            'embedsemantic', # semantik gömme
+            'autogrow', # editör yüksekliğini otomatik ayarlama
+        ]),
+    }
 }
 
 # Default primary key field type
@@ -202,6 +233,35 @@ JAZZMIN_SETTINGS = {
     "footer_fixed": False,
     "custom_css": None,
     "custom_js": None,
+    "icons": {
+        "site_settings.SiteSettings": "fas fa-cogs",
+        "auth.user": "fas fa-user",
+        "about_page.AboutPage": "fas fa-info-circle",
+        "blog.Blog": "fas fa-blog",
+        "contact_page.Contact": "fas fa-envelope",
+        "services.Service": "fas fa-tools",
+        "media_manager.Image": "fas fa-images",
+        "media_manager.Video": "fas fa-video",
+        "slider.Slider": "fas fa-sliders",
+        "contact_page.EmailInbox": "fas fa-inbox",
+        "contact_page.PhoneNumber": "fas fa-phone",
+        "contact_page.Email": "fas fa-envelope",
+        "contact_page.Address": "fas fa-map-marker-alt",
+        "contact_page.ContactEmail": "fas fa-envelope",
+        "contact_page.WhatsappNumber": "fab fa-whatsapp",
+        "services.Service": "fas fa-tools",
+    },
+    "order_with_respect_to": [
+        "site_settings",
+        "slider",
+        "about_page",
+        "services",
+        "blog",
+        "contact_page",
+        "media_manager",
+        "auth",
+    ],
+    "related_modal_active": False
 }
 
 JAZZMIN_UI_TWEAKS = {
