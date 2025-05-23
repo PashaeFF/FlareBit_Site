@@ -15,41 +15,19 @@
 <div class="th-mobile-menu">
 <ul>
     <li>
-    <a href="/">Home
-    </a>
-
+        <a href="/">Home</a>
     </li>
     <li>
-    <a href="about.html">About Us</a>
-    </li>
-    <li class="menu-item-has-children th-item-has-children">
-    <a href="#">Services<span class="th-mean-expand">
-    </span>
-    </a>
-    <ul class="sub-menu th-submenu" style="display: none;">
-    <li>
-    <a href="service.html">Services</a>
+        <a href="/about">About Us</a>
     </li>
     <li>
-    <a href="service-details.html">Services Details</a>
-    </li>
-    </ul>
-    </li>
-    <li class="menu-item-has-children th-item-has-children">
-    <a href="#">Blog<span class="th-mean-expand">
-    </span>
-    </a>
-    <ul class="sub-menu th-submenu" style="display: none;">
-    <li>
-    <a href="blog.html">Blog</a>
+        <a href="/services">Services</a>
     </li>
     <li>
-    <a href="blog-details.html">Blog Details</a>
-    </li>
-    </ul>
+        <a href="#">Blog</a>
     </li>
     <li>
-    <a href="contact.html">Contact</a>
+        <a href="#">Contact</a>
     </li>
 </ul>
 </div>
@@ -98,9 +76,9 @@
     </button>
     </div>
     <div class="col-auto d-xxl-block d-none">
-    {% if phone_numbers %}
+    {% if phone_number %}
         <div class="header-button">
-            <a href="tel:{{ phone_numbers.0 }}" class="th-btn style-radius">Call us: {{ phone_numbers.0 }}</a>
+            <a href="tel:{{ phone_number }}" class="th-btn style-radius">Call us: {{ phone_number }}</a>
         </div>
     {% endif %}
     </div>
