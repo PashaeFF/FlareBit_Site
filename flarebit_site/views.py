@@ -72,6 +72,7 @@ def service_details(request, slug):
         phone_number = PhoneNumber.objects.filter(is_active=True).first()
         context = {
             'title': f"{settings.title} - {service.title}",
+            'site_settings': settings if settings else None,
             'service': service if service else None,
             'whatsapp_number': whatsapp_number.number if whatsapp_number else None,
             'phone_number': phone_number.number if phone_number else None,
