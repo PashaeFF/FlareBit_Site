@@ -1,0 +1,66 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+        {% include 'sections/cover_with_nav.html' %}
+        <section class="space" id="service-sec">
+            <div class="container">
+                <div class="row gy-4">
+                    {% if services %}
+                        {% for service in services %}
+                        <div class="col-md-6 col-xl-4">
+                            <div class="service-card">
+                                <div class="service-card_number">S</div>
+                                <div class="shape-icon">
+                                    <img src="{{ service.icon.url }}" alt="Icon">
+                                    <span class="dots"></span>
+                                </div>
+                                <h3 class="box-title">
+                                    <a href="{{ service.link }}">{{ service.title }}</a>
+                                </h3>
+                                <p class="service-card_text">{{ service.description|safe|truncatechars:40 }}</p>
+                                <a href="{{ service.link }}" class="th-btn">
+                                    Read More<i class="fa-regular fa-arrow-right ms-2"></i>
+                                </a>
+                                <div class="bg-shape">
+                                    <img src="/static/flarebit_site/assets/img/bg/service_card_bg.png" alt="bg">
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-12">
+                            <div class="alert alert-warning" role="alert">
+                                No services found.
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </section>
+        <section class="position-relative space">
+            <div class="th-bg-img" data-bg-src="/static/flarebit_site/assets/img/bg/cta_bg_2.jpg">
+                <img src="/static/flarebit_site/assets/img/bg/bg_overlay_1.png" alt="overlay">
+            </div>
+            <div class="container z-index-common">
+                <div class="row justify-content-center">
+                    <div class="col-xl-6 col-lg-7 col-md-9 text-center">
+                        <div class="title-area mb-35">
+                            <span class="sub-title">
+                                <div class="icon-masking me-2">
+                                    <span class="mask-icon" data-mask-src="/static/flarebit_site/assets/img/theme-img/title_shape_2.svg"></span>
+                                    <img src="/static/flarebit_site/assets/img/theme-img/title_shape_2.svg" alt="shape">
+                                </div>
+                                CONTACT US
+                            </span>
+                            <h2 class="sec-title text-white">
+                                Need Any Kind Of IT Solution For <span class="text-theme fw-normal">Your Business?</span>
+                            </h2>
+                        </div>
+                        <a href="contact.html" class="th-btn style3">Get In Touch</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+       
+{% endblock content %}

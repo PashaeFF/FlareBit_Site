@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = True
 
 ALLOWED_HOSTS = ['flarebit.net', 'www.flarebit.net', 'localhost', '127.0.0.1', '49.13.211.140']
 
@@ -87,7 +87,8 @@ INSTALLED_APPS = [
     'contact_page',
     'services',
     'media_manager',
-    'slider'
+    'slider',
+    'flarebit_site',
 ]
 
 MIDDLEWARE = [
@@ -169,8 +170,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

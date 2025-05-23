@@ -21,6 +21,7 @@ class SiteSettings(SingletonModel):
         null=True,
         blank=True
     )
+
     keywords = models.TextField(
         verbose_name="Keywords",
         help_text="Keywords for search engines (separated by commas)",
@@ -34,6 +35,14 @@ class SiteSettings(SingletonModel):
         verbose_name="Site Logo",
         help_text="Site logo (recommended size: 200x50px)"
     )
+
+    footer_logo = models.ImageField(
+        upload_to=get_file_path,
+        null=True,
+        blank=True,
+        verbose_name="Footer Logo",
+        help_text="Footer logo (recommended size: 200x50px)"
+    )
     favicon = models.ImageField(
         upload_to=get_file_path,
         null=True,
@@ -41,13 +50,13 @@ class SiteSettings(SingletonModel):
         verbose_name="Favicon",
         help_text="Browser tab icon (recommended size: 32x32px)"
     )
-    cover_image = models.ImageField(
-        upload_to=get_file_path,
-        null=True,
-        blank=True,
-        verbose_name="Cover Image",
-        help_text="Cover image for the homepage (recommended size: 1920x1080px)"
-    )
+    # cover_image = models.ImageField(
+    #     upload_to=get_file_path,
+    #     null=True,
+    #     blank=True,
+    #     verbose_name="Cover Image",
+    #     help_text="Cover image for the homepage (recommended size: 1920x1080px)"
+    # )
 
     footer_description = models.TextField(
         verbose_name="Footer Description",
@@ -90,12 +99,12 @@ class SiteSettings(SingletonModel):
         if self.pk:
             self.delete_old_image('logo')
             self.delete_old_image('favicon')
-            self.delete_old_image('cover_image')
+            self.delete_old_image('footer_logo')
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         # Tüm görselleri sil
-        for field in ['logo', 'favicon', 'cover_image']:
+        for field in ['logo', 'favicon', 'footer_logo']:
             file = getattr(self, field)
             if file:
                 if os.path.isfile(file.path):

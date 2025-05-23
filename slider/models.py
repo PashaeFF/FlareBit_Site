@@ -16,8 +16,10 @@ def get_random_file_path(instance, filename):
 class Slider(models.Model):
     title = models.CharField(max_length=255, verbose_name="Title")
     image = models.ImageField(upload_to=get_random_file_path, verbose_name="Image")
-    link = models.URLField(max_length=1000, verbose_name="Link")
-    link_text = models.CharField(max_length=255, verbose_name="Link Text")
+    description = models.TextField(verbose_name="Description Text", null=True, blank=True)
+    link = models.URLField(max_length=1000, verbose_name="Link", null=True, blank=True)
+    link_text = models.CharField(max_length=255, verbose_name="Link Text", null=True, blank=True)
+    youtube_link = models.URLField(max_length=2000, verbose_name="Youtube Link", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -53,3 +55,11 @@ def delete_image_on_delete(sender, instance, *args, **kwargs):
     if instance.image:
         if os.path.isfile(instance.image.path):
             os.remove(instance.image.path)
+
+
+class SliderSettings(models.Model):
+    slider_text = models.TextField(verbose_name="Slider Text", null=True, blank=True)
+    blue_background = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "Slider Settings"

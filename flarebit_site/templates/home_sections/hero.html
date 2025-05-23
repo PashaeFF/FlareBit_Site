@@ -1,0 +1,82 @@
+{% if sliders %}
+    <div class="th-hero-wrapper hero-6" id="hero">
+        <div class="swiper th-slider" id="heroSlide3" data-slider-options='{"effect":"fade"}'>
+            <div class="swiper-wrapper">
+                {% for slider in sliders %}
+                    <div class="swiper-slide">
+                        <div class="hero-inner">
+                            <div class="th-hero-bg" data-bg-src="{{ slider.image.url }}" style="height: 110vh;">
+                                {% if slider_settings.blue_background %}
+                                    <img src="static/flarebit_site/assets/img/hero/hero_overlay_6.png" style="opacity: 0.8;" alt="Hero Image">
+                                {% endif %}
+                            </div>
+                            <div class="container">
+                                <div class="hero-style6">
+                                    <span class="sub-title" data-ani="slideinup" data-ani-delay="0.5s">{{ slider.title }}</span>
+                                    {% if slider.description %}
+                                        <h1 class="hero-title" data-ani="slideinup" data-ani-delay="0.6s">{{ slider.description }}</h1>
+                                    {% endif %}
+                                    
+                                    {% if slider_settings.slider_text %}
+                                        <div class="hero-big">
+                                            <h1 class="hero-big_text" data-ani="slideinup" data-ani-delay="0.7s">{{ slider_settings.slider_text }}</h1>
+                                        </div>
+                                    {% endif %}
+                                    <div class="btn-group justify-content-center">
+                                        {% if slider.link %}
+                                            <div class="" data-ani="slideinleft" data-ani-delay="0.8s">
+                                                <a href="{{ slider.link }}" class="th-btn style3 style-radius">{{ slider.link_text|default:'Click Here' }}</a>
+                                            </div>
+                                        {% endif %}
+                                        {% if slider.youtube_link %}
+                                            <div class="call-btn" data-ani="slideinright" data-ani-delay="0.9s">
+                                                <a href="{{ slider.youtube_link }}" class="play-btn popup-video">
+                                                    <i class="fas fa-play"></i>
+                                                </a>
+                                                <div class="media-body">
+                                                    <a href="https://www.youtube.com/watch?v=AqlvLOA8JK0" class="btn-title popup-video">Watch Video</a>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button data-slider-prev="#heroSlide3" class="slider-arrow slider-prev">
+            <i class="far fa-arrow-left"></i>
+        </button>
+        <button data-slider-next="#heroSlide3" class="slider-arrow slider-next">
+            <i class="far fa-arrow-right"></i>
+        </button>
+    </div>
+{% endif %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Magnific Popup -->
+<script src="static/flarebit_site/assets/js/jquery.magnific-popup.min.js"></script>
+
+<!-- Video popup ayarları -->
+<script>
+$(document).ready(function() {
+    $('.popup-video').magnificPopup({
+        type: 'iframe',
+        mainClass: 'mfp-fade',
+        removalDelay: 160,
+        preloader: false,
+        fixedContentPos: false,
+        iframe: {
+            patterns: {
+                youtube: {
+                    index: 'youtube.com/',
+                    id: 'v=',
+                    src: 'https://www.youtube.com/embed/%id%?autoplay=1'
+                }
+            }
+        }
+    });
+});
+</script>

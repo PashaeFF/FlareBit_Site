@@ -7,11 +7,11 @@ from .models import SiteSettings
 class SiteSettingsAdmin(SingletonModelAdmin):
     fieldsets = (
         ('SEO Information', {
-            'fields': ('title', 'description', 'keywords'),
+            'fields': ('title', 'description', 'keywords', 'footer_description'),
             'description': 'Optimized site information for search engines'
         }),
         ('Site Images', {
-            'fields': ('logo', 'favicon', 'cover_image'),
+            'fields': ('logo', 'favicon', 'footer_logo'),
             'description': 'Required images and icons for the site'
         }),
         ('Social Media', {

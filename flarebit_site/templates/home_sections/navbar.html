@@ -1,0 +1,111 @@
+<!-- Mobile Navbar -->
+<div class="th-menu-wrapper">
+    <div class="th-menu-area text-center">
+    <button class="th-menu-toggle">
+    <i class="fal fa-times">
+    </i>
+    </button>
+    <div class="mobile-logo">
+    <a class="icon-masking" href="index.html">
+    <span class="mask-icon bg-mask" style="mask-image: url(&quot;static/flarebit_site/assets/img/logo.svg&quot;);">
+    </span>
+    <img src="static/flarebit_site/assets/img/logo.svg" alt="Webteck">
+    </a>
+    </div>
+<div class="th-mobile-menu">
+<ul>
+    <li>
+    <a href="/">Home
+    </a>
+
+    </li>
+    <li>
+    <a href="about.html">About Us</a>
+    </li>
+    <li class="menu-item-has-children th-item-has-children">
+    <a href="#">Services<span class="th-mean-expand">
+    </span>
+    </a>
+    <ul class="sub-menu th-submenu" style="display: none;">
+    <li>
+    <a href="service.html">Services</a>
+    </li>
+    <li>
+    <a href="service-details.html">Services Details</a>
+    </li>
+    </ul>
+    </li>
+    <li class="menu-item-has-children th-item-has-children">
+    <a href="#">Blog<span class="th-mean-expand">
+    </span>
+    </a>
+    <ul class="sub-menu th-submenu" style="display: none;">
+    <li>
+    <a href="blog.html">Blog</a>
+    </li>
+    <li>
+    <a href="blog-details.html">Blog Details</a>
+    </li>
+    </ul>
+    </li>
+    <li>
+    <a href="contact.html">Contact</a>
+    </li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<!-- Desktop Navbar -->
+<header class="th-header header-layout5">
+    <div class="sticky-wrapper">
+    <div class="menu-area">
+    <div class="container th-container4">
+    <div class="row align-items-center justify-content-between">
+    <div class="col-auto">
+    <div class="header-logo">
+    {% if site_settings.logo %}
+        <a href="/">
+            <img style="width: 150px;" src="{{ site_settings.logo.url }}" alt="Webteck">
+        </a>
+    {% endif %}
+    </div>
+    </div>
+    <div class="col-auto ms-xl-auto">
+    <nav class="main-menu style2 d-none d-lg-inline-block">
+    <ul>
+        <li>
+            <a href="/">Home</a>
+        </li>
+        <li>
+            <a href="/about">About Us</a>
+        </li>
+        <li>
+            <a href="/services">Services</a>
+        </li>
+        <li>
+            <a href="#">Blog</a>
+        </li>
+        <li>
+            <a href="#">Contact</a>
+        </li>
+    </ul>
+    </nav>
+    <button type="button" class="th-menu-toggle d-block d-lg-none">
+    <i class="far fa-bars">
+    </i>
+    </button>
+    </div>
+    <div class="col-auto d-xxl-block d-none">
+    {% if phone_numbers %}
+        <div class="header-button">
+            <a href="tel:{{ phone_numbers.0 }}" class="th-btn style-radius">Call us: {{ phone_numbers.0 }}</a>
+        </div>
+    {% endif %}
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </header>

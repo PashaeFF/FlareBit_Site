@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+        {% include 'sections/cover_with_nav.html' %}
+        <div class="overflow-hidden space" id="about-sec">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-6 mb-30 mb-xl-0">
+                        <div class="img-box1">
+                            <div class="img1">
+                                <img src="/static/flarebit_site/assets/img/normal/about_1_1.png" alt="About">
+                            </div>
+                            <div class="shape1">
+                                <img src="/static/flarebit_site/assets/img/normal/about_shape_1.png" alt="shape">
+                            </div>
+                            <!-- <div class="year-counter">
+                                <h3 class="year-counter_number">
+                                    <span class="counter-number">25</span>
+                                </h3>
+                                <p class="year-counter_text">Years Experience</p>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        {% if about_page %}
+                            {% for about in about_page %}
+                                <div class="ps-xxl-4 ms-xl-3">
+                                    <div class="title-area mb-35">
+                                        <h2 class="sec-title">
+                                            {{ about.title|safe }}
+                                        </h2>
+                                    </div>
+                                    <p class="mt-n2 mb-25">{{ about.description|safe }}</p>
+                                    <br/>
+                                    <br/>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock content %}

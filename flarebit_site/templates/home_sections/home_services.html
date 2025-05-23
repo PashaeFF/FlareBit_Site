@@ -1,0 +1,44 @@
+{% if services %}
+    <section class="service-area7 m-4 mt-0 space" id="service-sec">
+        <div class="container th-container4">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="title-area text-center">
+                        <span class="sub-title">WHAT WE DO</span>
+                        <h2 class="sec-title">How To Grow Your Business</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-area">
+                <div class="swiper th-slider has-shadow" id="serviceSlider7" data-slider-options='{"breakpoints":{"0":{"slidesPerView":1},"576":{"slidesPerView":"1"},"768":{"slidesPerView":"2"},"992":{"slidesPerView":"3"},"1200":{"slidesPerView":"4"}}}'>
+                    <div class="swiper-wrapper">
+                        {% for service in services %}
+                            <div class="swiper-slide">
+                                <div class="service-grid7 th-ani">
+                                    <div class="service-grid7_icon">
+                                        <img src="{{ service.icon.url }}" alt="Icon">
+                                    </div>
+                                    <div class="service-grid7_content">
+                                        <h3 class="box-title">
+                                            <a href="">{{ service.title }}</a>
+                                        </h3>
+                                        <p class="service-grid7_text">{{ service.description|safe }}</p>
+                                        <a href="" class="line-btn">
+                                            Learn More<i class="fa-regular fa-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <button data-slider-prev="#serviceSlider7" class="slider-arrow slider-prev">
+                    <i class="far fa-arrow-left"></i>
+                </button>
+                <button data-slider-next="#serviceSlider7" class="slider-arrow slider-next">
+                    <i class="far fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+{% endif %}
