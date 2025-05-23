@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['flarebit.net', 'www.flarebit.net', 'localhost', '127.0.0.1', '49.13.211.140']
+ALLOWED_HOSTS = ['flarebit.net', 'www.flarebit.net', 'localhost', '127.0.0.1', '49.13.211.140', 'flarebit.qrme.az']
 
 CORS_ALLOWED_ORIGINS = [
     "http://49.13.211.140",
