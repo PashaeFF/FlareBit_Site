@@ -22,7 +22,7 @@
                                         <h3 class="box-title">
                                             <a href="">{{ service.title }}</a>
                                         </h3>
-                                        <p class="service-grid7_text">{{ service.description|safe }}</p>
+                                        <p class="service-grid7_text">{{ service.description|safe|truncatechars:40 }}</p>
                                         <a href="" class="line-btn">
                                             Learn More<i class="fa-regular fa-arrow-right"></i>
                                         </a>
