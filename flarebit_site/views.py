@@ -36,21 +36,49 @@ def home(request):
 def about(request):
     settings = SiteSettings.objects.first()
     about_page = AboutPage.objects.all()
+    whatsapp_number = WhatsappNumber.objects.filter(is_active=True, general_number=True).first()
+    phone_number = PhoneNumber.objects.filter(is_active=True).first()
     context = {
         'title': f"{settings.title} - About Us" if settings else 'About Us',
         'site_settings': settings if settings else None,
         'page_name': 'About Us',
         'about_page': about_page if about_page else None,
+        'whatsapp_number': whatsapp_number.number if whatsapp_number else None,
+        'phone_number': phone_number.number if phone_number else None,
     }
     return render(request, 'about.html', context)
 
 def services(request):
     settings = SiteSettings.objects.first()
     services_all = Service.objects.filter(is_active=True).order_by('ordering')
+    whatsapp_number = WhatsappNumber.objects.filter(is_active=True, general_number=True).first()
+    phone_number = PhoneNumber.objects.filter(is_active=True).first()
     context = {
         'title': f"{settings.title} - Services" if settings else 'Services',
         'site_settings': settings if settings else None,
         'services': services_all if services_all else None,
         'page_name': 'Services',
+        'whatsapp_number': whatsapp_number.number if whatsapp_number else None,
+        'phone_number': phone_number.number if phone_number else None,
     }
     return render(request, 'services.html', context)
+
+def service_details(request, slug):
+    try:
+        settings = SiteSettings.objects.first()
+        service = Service.objects.get(slug=slug)
+        services_all = Service.objects.filter(is_active=True).order_by('ordering')
+        whatsapp_number = WhatsappNumber.objects.filter(is_active=True, general_number=True).first()
+        phone_number = PhoneNumber.objects.filter(is_active=True).first()
+        context = {
+            'title': f"{settings.title} - {service.title}",
+            'service': service if service else None,
+            'whatsapp_number': whatsapp_number.number if whatsapp_number else None,
+            'phone_number': phone_number.number if phone_number else None,
+            'page_name': 'Services',
+            'detail_name': service.title,
+            'services': services_all if services_all else None,
+        }
+        return render(request, 'service-details.html', context)
+    except Service.DoesNotExist:
+        return render(request, '404.html')

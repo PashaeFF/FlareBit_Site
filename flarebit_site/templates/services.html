@@ -15,10 +15,10 @@
                                     <span class="dots"></span>
                                 </div>
                                 <h3 class="box-title">
-                                    <a href="{{ service.link }}">{{ service.title }}</a>
+                                    <a href="/services/{{ service.slug }}">{{ service.title }}</a>
                                 </h3>
                                 <p class="service-card_text">{{ service.description|safe|truncatechars:40 }}</p>
-                                <a href="{{ service.link }}" class="th-btn">
+                                <a href="/services/{{ service.slug }}" class="th-btn">
                                     Read More<i class="fa-regular fa-arrow-right ms-2"></i>
                                 </a>
                                 <div class="bg-shape">
@@ -57,7 +57,7 @@
                                 Need Any Kind Of IT Solution For <span class="text-theme fw-normal">Your Business?</span>
                             </h2>
                         </div>
-                        <a href="contact.html" class="th-btn style3">Get In Touch</a>
+                        <a href="tel:{{ phone_number }}" class="th-btn style3"> Call Us {{ phone_number }}</a>
                     </div>
                 </div>
             </div>

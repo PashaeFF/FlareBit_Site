@@ -1,12 +1,19 @@
 <div class="breadcumb-wrapper" data-bg-src="/static/flarebit_site/assets/img/bg/breadcumb-bg.jpg">
     <div class="container">
         <div class="breadcumb-content">
-            <h1 class="breadcumb-title">{{ page_name }}</h1>
+            {% if detail_name %}
+                <h1 class="breadcumb-title">{{ detail_name }}</h1>
+            {% else %}
+                <h1 class="breadcumb-title">{{ page_name }}</h1>
+            {% endif %}
             <ul class="breadcumb-menu">
                 <li>
                     <a href="/">Home</a>
                 </li>
                 <li>{{ page_name }}</li>
+                {% if detail_name %}
+                    <li>{{ detail_name }}</li>
+                {% endif %}
             </ul>
         </div>
     </div>

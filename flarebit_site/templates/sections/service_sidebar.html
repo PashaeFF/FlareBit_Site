@@ -1,0 +1,29 @@
+<div class="col-xxl-4 col-lg-4">
+    <aside class="sidebar-area">
+        {% if services %}
+            <div class="widget widget_nav_menu">
+                <h3 class="widget_title">All Services</h3>
+                <div class="menu-all-pages-container">
+                    <ul class="menu">
+                        {% for service in services %}
+                            <li>
+                                <a href="/services/{{ service.slug }}">{{ service.title }}</a>
+                            </li>
+                        {% endfor %}
+                    
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="widget widget_banner" data-bg-src="/static/flarebit_site/assets/img/bg/widget_banner.jpg">
+            <div class="widget-banner">
+                <span class="text">CONTACT US NOW</span>
+                <h2 class="title">You Need Help?</h2>
+                <a href="/contact" class="th-btn style3">
+                    GET A QUOTE<i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </aside>
+</div>
