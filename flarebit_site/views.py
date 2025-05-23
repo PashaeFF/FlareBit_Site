@@ -82,4 +82,4 @@ def service_details(request, slug):
         }
         return render(request, 'service-details.html', context)
     except Service.DoesNotExist:
-        return render(request, '404.html')
+        return render(request, '404.html', context)
