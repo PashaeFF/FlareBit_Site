@@ -38,6 +38,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://www.flarebit.net",
     "http://127.0.0.1:8000",
     "http://localhost:8000",
+    "https://flarebit.qrme.az"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -47,7 +48,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://flarebit.net', 
     'https://www.flarebit.net',
     'http://127.0.0.1:8000',
-    'http://localhost:8000'
+    'http://localhost:8000',
+    'https://flarebit.qrme.az'
 ]
 
 if not DEBUG:
