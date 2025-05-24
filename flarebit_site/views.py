@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from site_settings.models import SiteSettings
 from slider.models import Slider, SliderSettings
 from about_page.models import AboutPage
 from blog.models import Blog
 from services.models import Service
-from contact_page.models import Address, PhoneNumber, Email, WhatsappNumber
+from contact_page.models import Address, PhoneNumber, Email, WhatsappNumber, MapEmbed
+from django.contrib import messages
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -92,6 +94,7 @@ def contact(request):
     address = Address.objects.filter(is_active=True).all()
     email = Email.objects.filter(is_active=True).all()
     phone_numbers = PhoneNumber.objects.filter(is_active=True).all()
+    map_embed = MapEmbed.objects.filter(is_active=True).first()
     context = {
         'title': f"{settings.title} - Contact Us" if settings else 'Contact Us',
         'site_settings': settings if settings else None,
@@ -100,6 +103,41 @@ def contact(request):
         'address': address if address else None,
         'email': email if email else None,
         'phone_numbers': phone_numbers if phone_numbers else None,
+        'map_embed': map_embed.embed_code if map_embed else None,
+        'page_name': 'Contact Us',
     }
     return render(request, 'contact.html', context)
 
+
+def send_email(request):
+    if request.method == 'POST':
+        try:
+            name = request.POST.get('name')
+            email = request.POST.get('email')
+            subject = request.POST.get('subject')
+            message = request.POST.get('message')
+            
+            if not all([name, email, subject, message]):
+                return JsonResponse({
+                    'success': False,
+                    'message': 'Lütfen tüm alanları doldurun.'
+                })
+            
+            # Email gönderme işlemi burada
+            print(name, email, subject, message)
+            
+            return JsonResponse({
+                'success': True,
+                'message': 'Mesajınız başarıyla gönderildi. En kısa sürede size dönüş yapacağız.'
+            })
+            
+        except Exception as e:
+            return JsonResponse({
+                'success': False,
+                'message': 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.'
+            })
+    
+    return JsonResponse({
+        'success': False,
+        'message': 'Geçersiz istek metodu.'
+    })

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import PhoneNumber, Email, Address, ContactEmail, EmailInbox, WhatsappNumber
+from .models import *
 
 
 @admin.register(EmailInbox)
@@ -49,6 +49,18 @@ class EmailAdmin(admin.ModelAdmin):
 class AddressAdmin(admin.ModelAdmin):
     list_display = ('address', 'location_link', 'is_active')
     list_filter = ('is_active',)
+
+@admin.register(MapEmbed)
+class MapEmbedAdmin(admin.ModelAdmin):
+    list_display = ('short_embed_code', 'is_active')
+    list_filter = ('is_active',)
+    
+    def short_embed_code(self, obj):
+        return obj.embed_code[:50] + "..." if len(obj.embed_code) > 50 else obj.embed_code
+    short_embed_code.short_description = "Google Map Embed Code"
+
+    def has_add_permission(self, request):
+        return not MapEmbed.objects.exists()
 
 @admin.register(ContactEmail)
 class ContactEmailAdmin(admin.ModelAdmin):

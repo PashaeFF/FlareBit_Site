@@ -5,6 +5,7 @@
         <div class="space">
             <div class="container">
                 <div class="row gy-4">
+                    {% if address %}
                     <div class="col-xl-4 col-md-6">
                         <div class="contact-info">
                             <div class="contact-info_icon">
@@ -12,12 +13,16 @@
                             </div>
                             <div class="media-body">
                                 <h4 class="box-title">Our Office Address</h4>
-                                <span class="contact-info_text">
-                                    Burnsville, MN 55337 Streat,<br>United States
-                                </span>
+                                {% for address in address %}
+                                    <span class="contact-info_text">
+                                        <a href="{{ address.location_link }}" target="_blank">{{ address.address }}</a>
+                                    </span>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
+                    {% endif %}
+                    {% if phone_numbers %}
                     <div class="col-xl-4 col-md-6">
                         <div class="contact-info">
                             <div class="contact-info_icon">
@@ -26,12 +31,15 @@
                             <div class="media-body">
                                 <h4 class="box-title">Call Us Anytime</h4>
                                 <span class="contact-info_text">
-                                    <a href="tel:+65485965789">(+65) - 48596 - 5789</a>
-                                    <a href="tel:+65485965789">+65-48596-5789</a>
+                                    {% for phone_number in phone_numbers %}
+                                        <a href="tel:+{{ phone_number.number }}">{{ phone_number.number }}</a>
+                                    {% endfor %}
                                 </span>
                             </div>
                         </div>
-                    </div>
+                        </div>
+                    {% endif %}
+                    {% if email %}
                     <div class="col-xl-4 col-md-6">
                         <div class="contact-info">
                             <div class="contact-info_icon">
@@ -40,15 +48,27 @@
                             <div class="media-body">
                                 <h4 class="box-title">Send An Email</h4>
                                 <span class="contact-info_text">
-                                    <a href="mailto:info.example@gmail.com">info.example@gmail.com</a>
-                                    <a href="mailto:info@webteck.com">info@webteck.com</a>
+                                    {% for email in email %}
+                                        <a href="mailto:{{ email.email }}">{{ email.email }}</a>
+                                    {% endfor %}
                                 </span>
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
         <div class="bg-smoke space" data-bg-src="/static/flarebit_site/assets/img/bg/contact_bg_1.png" id="contact-sec">
             <div class="container">
                 <div class="row">
@@ -64,7 +84,8 @@
                             <h2 class="sec-title">Have Any Questions?</h2>
                             <p class="sec-text">Enthusiastically disintermediate one-to-one leadership via business e-commerce. Dramatically reintermediate compelling process improvements rather than empowered relationships.</p>
                         </div>
-                        <form action="mail.php" method="POST" class="contact-form ajax-contact">
+                        <form action="/contact/send_email/" method="POST" class="contact-form ajax-contact">
+                            {% csrf_token %}
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <input type="text" class="form-control" name="name" id="name" placeholder="Your Name">
@@ -105,6 +126,59 @@
             </div>
         </div>
         <div class="map-sec">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3644.7310056272386!2d89.2286059153658!3d24.00527418490799!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fe9b97badc6151%3A0x30b048c9fb2129bc!2sThemeholy!5e0!3m2!1sen!2sbd!4v1651028958211!5m2!1sen!2sbd" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="{{ map_embed }}" allowfullscreen="" loading="lazy"></iframe>
         </div>
+
+<script>
+function showFlashMessage(message, isSuccess) {
+    const flashContainer = document.getElementById('flash-message');
+    const flashText = document.getElementById('flash-text');
+    const alertDiv = flashContainer.querySelector('.alert');
+    
+    // Convert to string if it's an object
+    const displayMessage = typeof message === 'object' ? JSON.stringify(message) : message;
+    
+    flashText.textContent = displayMessage;
+    alertDiv.classList.remove('alert-success', 'alert-danger');
+    alertDiv.classList.add(isSuccess ? 'alert-success' : 'alert-danger');
+    
+    flashContainer.style.display = 'block';
+    
+    setTimeout(() => {
+        flashContainer.style.display = 'none';
+    }, 5000);
+}
+
+const form = document.querySelector('form');
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(form);
+    
+    try {
+        const response = await fetch('/contact/send-email/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+            body: formData
+        });
+        
+        const data = await response.json();
+        console.log('Response data:', data); // Debug için
+
+        // Direkt mesajı kullan
+        const message = data.message || 'An error occurred';
+        showFlashMessage(message, data.success);
+        
+        if (data.success) {
+            form.reset();
+        }
+        
+    } catch (error) {
+        console.error('Error:', error);
+        showFlashMessage('An error occurred. Please try again later.', false);
+    }
+});
+</script>
 {% endblock %}

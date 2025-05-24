@@ -115,5 +115,9 @@ class MapEmbed(models.Model):
     embed_code = models.TextField()
     is_active = models.BooleanField(default=True)
 
+    def clean(self):
+        if MapEmbed.objects.exists() and not self.pk:
+            raise ValidationError("Just one map embed is allowed")
+
     def __str__(self):
-        return self.embed_code
+        return self.embed_code[:50] + "..." if len(self.embed_code) > 50 else self.embed_code
