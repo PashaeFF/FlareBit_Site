@@ -105,3 +105,15 @@ class ContactEmail(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class MapEmbed(models.Model):
+    class Meta:
+        verbose_name = "Google Map Embed"
+        verbose_name_plural = "Google Map Embeds"
+
+    embed_code = models.TextField()
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.embed_code

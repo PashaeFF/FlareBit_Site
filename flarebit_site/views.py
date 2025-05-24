@@ -83,3 +83,23 @@ def service_details(request, slug):
         return render(request, 'service-details.html', context)
     except Service.DoesNotExist:
         return render(request, '404.html')
+
+
+def contact(request):
+    settings = SiteSettings.objects.first()
+    whatsapp_number = WhatsappNumber.objects.filter(is_active=True, general_number=True).first()
+    phone_number = PhoneNumber.objects.filter(is_active=True).first()
+    address = Address.objects.filter(is_active=True).all()
+    email = Email.objects.filter(is_active=True).all()
+    phone_numbers = PhoneNumber.objects.filter(is_active=True).all()
+    context = {
+        'title': f"{settings.title} - Contact Us" if settings else 'Contact Us',
+        'site_settings': settings if settings else None,
+        'whatsapp_number': whatsapp_number.number if whatsapp_number else None,
+        'phone_number': phone_number.number if phone_number else None,
+        'address': address if address else None,
+        'email': email if email else None,
+        'phone_numbers': phone_numbers if phone_numbers else None,
+    }
+    return render(request, 'contact.html', context)
+
