@@ -87,6 +87,25 @@ def service_details(request, slug):
         return render(request, '404.html')
 
 
+def blog(request):
+    settings = SiteSettings.objects.first()
+    blogs = Blog.objects.filter(is_active=True).order_by('-created_at')
+    context = {
+        'title': f"{settings.title} - Blog",
+    }
+    return render(request, 'blog.html', context)
+
+def blog_details(request, slug):
+    try:
+        settings = SiteSettings.objects.first()
+        blog = Blog.objects.get(slug=slug)
+        context = {
+            'title': f"{settings.title} - {blog.title}",
+        }
+        return render(request, 'blog-details.html', context)
+    except Blog.DoesNotExist:
+        return render(request, '404.html')
+
 def contact(request):
     settings = SiteSettings.objects.first()
     whatsapp_number = WhatsappNumber.objects.filter(is_active=True, general_number=True).first()
@@ -95,17 +114,25 @@ def contact(request):
     email = Email.objects.filter(is_active=True).all()
     phone_numbers = PhoneNumber.objects.filter(is_active=True).all()
     map_embed = MapEmbed.objects.filter(is_active=True).first()
+    
+    flash_message = request.session.get('message', None)
+    # if flash_message:
+    #     del request.session['message']
+    #     request.session.modified = True
+
     context = {
+        'flash_message': {"text": flash_message.get("text"), "type": flash_message.get("type")} if flash_message else None,
         'title': f"{settings.title} - Contact Us" if settings else 'Contact Us',
         'site_settings': settings if settings else None,
         'whatsapp_number': whatsapp_number.number if whatsapp_number else None,
         'phone_number': phone_number.number if phone_number else None,
         'address': address if address else None,
-        'email': email if email else None,
+        'emails': email if email else None,
         'phone_numbers': phone_numbers if phone_numbers else None,
         'map_embed': map_embed.embed_code if map_embed else None,
         'page_name': 'Contact Us',
     }
+    print(flash_message)
     return render(request, 'contact.html', context)
 
 
@@ -118,26 +145,27 @@ def send_email(request):
             message = request.POST.get('message')
             
             if not all([name, email, subject, message]):
-                return JsonResponse({
-                    'success': False,
-                    'message': 'Lütfen tüm alanları doldurun.'
-                })
+                # Session'a hata mesajı ekle
+                request.session['message'] = {
+                    'type': 'error',
+                    'text': 'Please fill all fields'
+                }
+                return redirect('/contact?#contact-sec')
             
             # Email gönderme işlemi burada
             print(name, email, subject, message)
             
-            return JsonResponse({
-                'success': True,
-                'message': 'Mesajınız başarıyla gönderildi. En kısa sürede size dönüş yapacağız.'
-            })
+            # Session'a başarı mesajı ekle
+            request.session['message'] = {
+                'type': 'success',
+                'text': 'Your message has been sent. We will contact you as soon as possible.'
+            }
+            return redirect('/contact?#contact-sec')
             
         except Exception as e:
-            return JsonResponse({
-                'success': False,
-                'message': 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.'
-            })
-    
-    return JsonResponse({
-        'success': False,
-        'message': 'Geçersiz istek metodu.'
-    })
+            request.session['message'] = {
+                'type': 'error',
+                'text': 'An error occurred. Please try again later.'
+            }
+            return redirect('/contact?#contact-sec')
+    return redirect('/contact?#contact-sec')

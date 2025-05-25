@@ -39,7 +39,7 @@
                         </div>
                         </div>
                     {% endif %}
-                    {% if email %}
+                    {% if emails %}
                     <div class="col-xl-4 col-md-6">
                         <div class="contact-info">
                             <div class="contact-info_icon">
@@ -48,7 +48,7 @@
                             <div class="media-body">
                                 <h4 class="box-title">Send An Email</h4>
                                 <span class="contact-info_text">
-                                    {% for email in email %}
+                                    {% for email in emails %}
                                         <a href="mailto:{{ email.email }}">{{ email.email }}</a>
                                     {% endfor %}
                                 </span>
@@ -59,16 +59,10 @@
                 </div>
             </div>
         </div>
-        {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+       
+
+    
+
         <div class="bg-smoke space" data-bg-src="/static/flarebit_site/assets/img/bg/contact_bg_1.png" id="contact-sec">
             <div class="container">
                 <div class="row">
@@ -119,8 +113,13 @@
                                     </button>
                                 </div>
                             </div>
-                            <p class="form-messages mb-0 mt-3"></p>
+                            
                         </form>
+                        {% if flash_message %}
+                            <div class="alert {% if flash_message.type == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+                                {{ flash_message.text }}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -129,7 +128,7 @@
             <iframe src="{{ map_embed }}" allowfullscreen="" loading="lazy"></iframe>
         </div>
 
-<script>
+<!-- <script>
 function showFlashMessage(message, isSuccess) {
     const flashContainer = document.getElementById('flash-message');
     const flashText = document.getElementById('flash-text');
@@ -180,5 +179,5 @@ form.addEventListener('submit', async (e) => {
         showFlashMessage('An error occurred. Please try again later.', false);
     }
 });
-</script>
+</script> -->
 {% endblock %}
