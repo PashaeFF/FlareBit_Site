@@ -162,7 +162,7 @@ def blog_details(request, category_slug, slug):
         whatsapp_number = WhatsappNumber.objects.filter(is_active=True, general_number=True).first()
         phone_number = PhoneNumber.objects.filter(is_active=True).first()
         recent_blogs = Blog.objects.filter(is_active=True).order_by('-created_at')[:5]
-        
+
         context = {
             'request': request,
             'title': f"{settings.title} - {blog.title}",
@@ -173,7 +173,7 @@ def blog_details(request, category_slug, slug):
             'recent_blogs': recent_blogs if recent_blogs else None,
             'page_name': 'Blog',
             'detail_name': blog.title,
-            'site_settings': settings if settings else None,
+            'site_settings': settings if settings else None
         }
         return render(request, 'blog-details.html', context)
     except Blog.DoesNotExist:
