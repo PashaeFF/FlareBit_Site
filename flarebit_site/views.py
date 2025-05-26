@@ -2,12 +2,13 @@ from django.shortcuts import render, redirect
 from site_settings.models import SiteSettings
 from slider.models import Slider, SliderSettings
 from about_page.models import AboutPage
-from blog.models import Blog
+from blog.models import Blog, BlogCategory
 from services.models import Service
 from contact_page.models import Address, PhoneNumber, Email, WhatsappNumber, MapEmbed
 from django.contrib import messages
 from django.http import JsonResponse
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .utils import get_page_range
 # Create your views here.
 
 def home(request):
@@ -90,17 +91,89 @@ def service_details(request, slug):
 def blog(request):
     settings = SiteSettings.objects.first()
     blogs = Blog.objects.filter(is_active=True).order_by('-created_at')
+    categories = BlogCategory.objects.filter(is_active=True)
+    whatsapp_number = WhatsappNumber.objects.filter(is_active=True, general_number=True).first()
+    phone_number = PhoneNumber.objects.filter(is_active=True).first()
+    recent_blogs = Blog.objects.filter(is_active=True).order_by('-created_at')[:5]
+    
+    paginator = Paginator(blogs, 10)
+    page = request.GET.get('page', 1)
+    
+    try:
+        blogs = paginator.page(page)
+    except PageNotAnInteger:
+        blogs = paginator.page(1)
+    except EmptyPage:
+        blogs = paginator.page(paginator.num_pages)
+    
     context = {
         'title': f"{settings.title} - Blog",
+        'site_settings': settings if settings else None,
+        'whatsapp_number': whatsapp_number.number if whatsapp_number else None,
+        'phone_number': phone_number.number if phone_number else None,
+        'blogs': blogs,
+        'categories': categories if categories else None,
+        'page_name': 'Blog',
+        'page_obj': blogs,
+        'page_range': get_page_range(paginator, blogs, 5),
+        'recent_blogs': recent_blogs if recent_blogs else None,
     }
     return render(request, 'blog.html', context)
 
-def blog_details(request, slug):
+
+def blog_category(request, slug):
+    settings = SiteSettings.objects.first()
+    category = BlogCategory.objects.get(slug=slug)
+    categories = BlogCategory.objects.filter(is_active=True)
+    whatsapp_number = WhatsappNumber.objects.filter(is_active=True, general_number=True).first()
+    phone_number = PhoneNumber.objects.filter(is_active=True).first()
+    blogs = Blog.objects.filter(is_active=True, category=category).order_by('-created_at')
+    recent_blogs = Blog.objects.filter(is_active=True).order_by('-created_at')[:5]
+    paginator = Paginator(blogs, 10)
+    page = request.GET.get('page', 1)
+
+    try:
+        blogs = paginator.page(page)
+    except PageNotAnInteger:
+        blogs = paginator.page(1)
+    except EmptyPage:
+        blogs = paginator.page(paginator.num_pages)
+    
+    context = {
+        'title': f"{settings.title} - {category.name}",
+        'site_settings': settings if settings else None,
+        'whatsapp_number': whatsapp_number.number if whatsapp_number else None,
+        'phone_number': phone_number.number if phone_number else None,
+        'blogs': blogs,
+        'categories': categories if categories else None,
+        'page_name': 'Blog',
+        'page_obj': blogs,
+        'page_range': get_page_range(paginator, blogs, 5),
+        'recent_blogs': recent_blogs if recent_blogs else None,
+    }
+    return render(request, 'blog.html', context)
+
+
+def blog_details(request, category_slug, slug):
     try:
         settings = SiteSettings.objects.first()
+        categories = BlogCategory.objects.filter(is_active=True)
         blog = Blog.objects.get(slug=slug)
+        whatsapp_number = WhatsappNumber.objects.filter(is_active=True, general_number=True).first()
+        phone_number = PhoneNumber.objects.filter(is_active=True).first()
+        recent_blogs = Blog.objects.filter(is_active=True).order_by('-created_at')[:5]
+        
         context = {
+            'request': request,
             'title': f"{settings.title} - {blog.title}",
+            'categories': categories if categories else None,
+            'blog': blog if blog else None,
+            'whatsapp_number': whatsapp_number.number if whatsapp_number else None,
+            'phone_number': phone_number.number if phone_number else None,
+            'recent_blogs': recent_blogs if recent_blogs else None,
+            'page_name': 'Blog',
+            'detail_name': blog.title,
+            'site_settings': settings if settings else None,
         }
         return render(request, 'blog-details.html', context)
     except Blog.DoesNotExist:
