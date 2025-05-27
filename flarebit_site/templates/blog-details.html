@@ -21,17 +21,17 @@
                                 </div>
                                 <h2 class="blog-title">{{ blog.title }}</h2>
                                 <p>{{ blog.description|safe }}</p>
-
-                                <div style="text-align: center;">
-                                    <a class="btn btn-primary" style="margin-top: 20px;" href="{{ blog.link }}" target="_blank">
-                                        {% if blog.link_text %}
-                                            <i class="fa-light fa-link"></i> {{ blog.link_text }}
-                                        {% else %}
-                                            <i class="fa-light fa-link"></i> Click Here to Read More
-                                        {% endif %}
-                                    </a>
-                                </div>
-
+                                {% if blog.link %}
+                                    <div style="text-align: center;">
+                                        <a class="btn btn-primary" style="margin-top: 20px;" href="{{ blog.link }}" target="_blank">
+                                            {% if blog.link_text %}
+                                                <i class="fa-light fa-link"></i> {{ blog.link_text }}
+                                            {% else %}
+                                                <i class="fa-light fa-link"></i> Click Here to Read More
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                {% endif %}
                                 {% if blog.youtube_embed_code %}
                                     <div class="blog-video-wrapper" style="margin: 20px 0;">
                                         {{ blog.youtube_embed_code|safe }}
