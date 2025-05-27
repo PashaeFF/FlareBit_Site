@@ -13,45 +13,31 @@
                             <div class="page-content">
                                 <h2 class="h3 page-title">{{ service.title }}</h2>
                                 <p>{{ service.description|safe }}</p>
-                                <!-- <p class="mb-30">Authoritatively scale business meta-services before client-based technologies. Collaboratively strategize synergistic scenarios rather than flexible action items. Continually deliver market positioning convergence and mission-critical infrastructures.</p> -->
-                                <!-- <div class="row">
-                                    <div class="col-md-6 mb-30">
-                                        <div class="th-video">
-                                            <img class="w-100" src="/static/flarebit_site/assets/img/service/service_inner_1.jpg" alt="service">
-                                            <a href="https://www.youtube.com/watch?v=_sI_Ps7JSEk" class="play-btn popup-video">
-                                                <i class="fas fa-play"></i>
-                                            </a>
-                                        </div>
+                                {% if service.link %}
+                                    <div style="text-align: center;">
+                                        <a class="btn btn-primary" style="margin-top: 20px;" href="{{ service.link }}" target="_blank">
+                                            {% if service.link_text %}
+                                                <i class="fa-light fa-link"></i> {{ blog.link_text }}
+                                            {% else %}
+                                                <i class="fa-light fa-link"></i> Click Here to Read More
+                                            {% endif %}
+                                        </a>
                                     </div>
-                                    <div class="col-md-6 mb-30">
-                                        <h3 class="h4 mb-20">We Serve The Best Work</h3>
-                                        <div class="checklist style3">
-                                            <ul>
-                                                <li>
-                                                    <i class="fas fa-octagon-check"></i>
-                                                    Up am intention on dependent questions
-                                                </li>
-                                                <li>
-                                                    <i class="fas fa-octagon-check"></i>
-                                                    Surrounded affronting favourable
-                                                </li>
-                                                <li>
-                                                    <i class="fas fa-octagon-check"></i>
-                                                    Sed ut perspiciatis unde omnis iste natus
-                                                </li>
-                                                <li>
-                                                    <i class="fas fa-octagon-check"></i>
-                                                    Special Careness Risk Free
-                                                </li>
-                                                <li>
-                                                    <i class="fas fa-octagon-check"></i>
-                                                    Bibend auctor nisi elit volume are beguiled
-                                                </li>
-                                            </ul>
-                                        </div>
+                                {% endif %}
+                                {% if service.youtube_embed_code %}
+                                    <div class="blog-video-wrapper" style="margin: 20px 0;">
+                                        {{ service.youtube_embed_code|safe }}
                                     </div>
-                                </div> -->
-                                <!-- <p class="mb-4">Credibly brand accurate data after user friendly ROI. Professionally negotiate inexpensive markets and team driven scenarios. Interactively seize wireless e-tailers after resource maximizing content. Collaboratively leverage existing.</p> -->
+                                {% endif %}
+                      
+                                {% if blog.video_link %}
+                                    <div class="blog-video-wrapper" style="margin: 20px 0;">
+                                        <video width="100%" controls>
+                                            <source src="{{ service.video_link }}" type="video/mp4">
+                                        </video>
+                                    </div>
+                                {% endif %}
+                                
                                 <h3 class="h4 mb-20">Benefits With Our Service</h3>
                                 <div class="service-feature-wrap">
                                     <div class="service-feature">

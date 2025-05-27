@@ -18,7 +18,7 @@ class Service(models.Model):
     link = models.URLField(max_length=1000, null=True, blank=True)
     link_text = models.CharField(max_length=255, null=True, blank=True)
     video_link = models.URLField(max_length=1000, null=True, blank=True)
-    youtube_link = models.URLField(max_length=1000, null=True, blank=True)
+    youtube_embed_code = models.TextField(null=True, blank=True)
     ordering = models.PositiveIntegerField(default=0, blank=False, null=False)
     slug = models.SlugField(max_length=555, unique=True, blank=True)
 

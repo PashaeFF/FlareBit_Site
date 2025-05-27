@@ -25,12 +25,7 @@ def home(request):
         'sliders': sliders if sliders else None,
         'slider_settings': slider_settings if slider_settings else None,
         'services': services if services else None, 
-        # 'about': AboutPage.objects.first(),
-        # 'blogs': Blog.objects.filter(is_active=True),
-        # 'services': Service.objects.filter(is_active=True).order_by('ordering'),
-        # 'addresses': Address.objects.filter(is_active=True),
         'phone_number': phone_number.number if phone_number else None,
-        # 'emails': Email.objects.filter(is_active=True),
         'whatsapp_number': whatsapp_number.number if whatsapp_number else None,
     }
     return render(request, 'home.html', context)
