@@ -68,6 +68,7 @@ else:
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 1300
 
+# SITE_ID = 1
 
 # Application definition
 
@@ -79,6 +80,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'corsheaders',
     'ckeditor',
     'ckeditor_uploader',

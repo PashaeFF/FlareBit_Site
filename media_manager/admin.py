@@ -2,10 +2,18 @@ from django.contrib import admin
 from django.utils.html import format_html
 from .models import Image, Video
 from django.core.exceptions import ValidationError
+from django.conf import settings
+from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.sites.models import Site
+
+
+def get_current_site(request):
+    site = request.get_host()
+    return site
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ('title', 'display_image', 'display_thumbnail', 'created_at')
+    list_display = ('title', 'display_image', 'display_thumbnail', 'display_full_url', 'created_at')
     list_display_links = ('title', 'display_image')
     readonly_fields = ('display_image_large', 'display_thumbnail_large', 'created_at', 'updated_at', 'thumbnail')
     search_fields = ('title',)
@@ -41,9 +49,21 @@ class ImageAdmin(admin.ModelAdmin):
         return "No Thumbnail"
     display_thumbnail_large.short_description = 'Thumbnail Preview (Large)'
 
+    def get_queryset(self, request):
+        self.request = request
+        return super().get_queryset(request)
+
+    def display_full_url(self, obj):
+        if obj.image:
+            protocol = 'https' if self.request.is_secure() else 'http'
+            full_url = f"{protocol}://{get_current_site(self.request)}{obj.image.url}"
+            return format_html('<a href="{}" target="_blank">{}</a>', full_url, full_url)
+        return "No URL"
+    display_full_url.short_description = 'Full Image URL'
+
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'display_video', 'created_at')
+    list_display = ('title', 'display_video', 'display_full_url', 'created_at')
     list_display_links = ('title',)
     readonly_fields = ('display_video_large', 'created_at', 'updated_at')
     search_fields = ('title',)
@@ -87,3 +107,16 @@ class VideoAdmin(admin.ModelAdmin):
             return format_html('<video width="400" height="240" controls><source src="{}" type="video/mp4"></video>', obj.video.url)
         return "No Video"
     display_video_large.short_description = 'Video Preview (Large)'
+
+    def display_full_url(self, obj):
+        if obj.video:
+            protocol = 'https' if self.request.is_secure() else 'http'
+            domain = get_current_site(self.request)
+            full_url = f"{protocol}://{domain}{obj.video.url}"
+            return format_html('<a href="{}" target="_blank">{}</a>', full_url, full_url)
+        return "No URL"
+    display_full_url.short_description = 'Full Video URL'
+
+    def get_queryset(self, request):
+        self.request = request
+        return super().get_queryset(request)
