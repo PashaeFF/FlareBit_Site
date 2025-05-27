@@ -4,11 +4,14 @@ from slider.models import Slider, SliderSettings
 from about_page.models import AboutPage
 from blog.models import Blog, BlogCategory
 from services.models import Service
-from contact_page.models import Address, PhoneNumber, Email, WhatsappNumber, MapEmbed
+from contact_page.models import *
 from django.contrib import messages
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .utils import get_page_range
+from django.core.mail import send_mail, EmailMessage
+from django.conf import settings
+from django.template.loader import render_to_string
 # Create your views here.
 
 def home(request):
@@ -208,32 +211,129 @@ def send_email(request):
     if request.method == 'POST':
         try:
             name = request.POST.get('name')
-            email = request.POST.get('email')
+            user_email = request.POST.get('email')
             subject = request.POST.get('subject')
             message = request.POST.get('message')
+            phone_number = request.POST.get('number')
+            contact_emails = ContactEmail.objects.filter(is_active=True).all().values_list('email', flat=True)
             
-            if not all([name, email, subject, message]):
-                # Session'a hata mesajı ekle
+            if not all([name, user_email, subject, message]):
                 request.session['message'] = {
                     'type': 'error',
                     'text': 'Please fill all fields'
                 }
                 return redirect('/contact?#contact-sec')
             
-            # Email gönderme işlemi burada
-            print(name, email, subject, message)
+            # Önce e-posta alıcıları olup olmadığını kontrol edelim
+            if not contact_emails:
+                request.session['message'] = {
+                    'type': 'error',
+                    'text': 'No contact email addresses configured in the system.'
+                }
+                return redirect('/contact?#contact-sec')
+
+            # HTML e-posta içeriği
+            html_content = f"""
+            <html>
+                <head>
+                    <style>
+                        body {{
+                            font-family: Arial, sans-serif;
+                            line-height: 1.6;
+                            color: #333;
+                        }}
+                        .container {{
+                            max-width: 600px;
+                            margin: 20px auto;
+                            padding: 20px;
+                            border: 1px solid #ddd;
+                            border-radius: 5px;
+                        }}
+                        .header {{
+                            background-color: #f8f9fa;
+                            padding: 15px;
+                            margin-bottom: 20px;
+                            border-radius: 5px;
+                        }}
+                        .content {{
+                            padding: 15px;
+                        }}
+                        .field {{
+                            margin-bottom: 15px;
+                        }}
+                        .label {{
+                            font-weight: bold;
+                            color: #666;
+                        }}
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="header">
+                            <h2>New Contact Form Message</h2>
+                        </div>
+                        <div class="content">
+                            <div class="field">
+                                <span class="label">Name: <b style="color: #000;">{name}</b></span>
+                            </div>
+                            <div class="field">
+                                <span class="label">Email: <b style="color: #000;">{user_email}</b></span>
+                            </div>
+                            <div class="field">
+                                <span class="label">Subject: <b style="color: #000;">{subject}</b></span>
+                            </div>
+                            <div class="field">
+                                <span class="label">Phone Number: <b style="color: #000;">{phone_number}</b></span>
+                            </div>
+                            <div class="field">
+                                <span class="label">Message: <b style="color: #000;">{message}</b></span>
+                            </div>
+                        </div>
+                    </div>
+                </body>
+            </html>
+            """
             
-            # Session'a başarı mesajı ekle
-            request.session['message'] = {
-                'type': 'success',
-                'text': 'Your message has been sent. We will contact you as soon as possible.'
-            }
-            return redirect('/contact?#contact-sec')
-            
+            try:
+                # E-posta gönderme işlemi
+                email_message = EmailMessage(
+                    subject=f'Contact Form: {subject}',
+                    body=html_content,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=list(contact_emails),  # QuerySet'i listeye çevirelim
+                )
+                email_message.content_subtype = "html"
+                email_message.send(fail_silently=False)
+
+                # Veritabanına kaydetme işlemi
+                inbox_message = EmailInbox.objects.create(
+                    name=name,
+                    email=user_email,
+                    service_type=subject,
+                    phone_number=phone_number,
+                    message=message
+                )
+
+                request.session['message'] = {
+                    'type': 'success',
+                    'text': 'Your message has been sent. We will contact you as soon as possible.'
+                }
+                return redirect('/contact?#contact-sec')
+
+            except Exception as e:
+                print(f"Hata detayı: {str(e)}")  # Hatayı konsola yazdıralım
+                request.session['message'] = {
+                    'type': 'error',
+                    'text': f'An error occurred: {str(e)}'
+                }
+                return redirect('/contact?#contact-sec')
+
         except Exception as e:
+            print(f"Genel hata detayı: {str(e)}")  # Genel hatayı konsola yazdıralım
             request.session['message'] = {
                 'type': 'error',
-                'text': 'An error occurred. Please try again later.'
+                'text': f'An error occurred: {str(e)}'
             }
             return redirect('/contact?#contact-sec')
+
     return redirect('/contact?#contact-sec')

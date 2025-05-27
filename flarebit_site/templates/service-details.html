@@ -17,7 +17,7 @@
                                     <div style="text-align: center;">
                                         <a class="btn btn-primary" style="margin-top: 20px;" href="{{ service.link }}" target="_blank">
                                             {% if service.link_text %}
-                                                <i class="fa-light fa-link"></i> {{ blog.link_text }}
+                                                <i class="fa-light fa-link"></i> {{ service.link_text }}
                                             {% else %}
                                                 <i class="fa-light fa-link"></i> Click Here to Read More
                                             {% endif %}
@@ -30,7 +30,7 @@
                                     </div>
                                 {% endif %}
                       
-                                {% if blog.video_link %}
+                                {% if service.video_link %}
                                     <div class="blog-video-wrapper" style="margin: 20px 0;">
                                         <video width="100%" controls>
                                             <source src="{{ service.video_link }}" type="video/mp4">

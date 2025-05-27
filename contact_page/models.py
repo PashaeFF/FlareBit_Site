@@ -11,6 +11,7 @@ class EmailInbox(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField()
     service_type = models.CharField(max_length=255, null=True, blank=True)
+    phone_number = models.CharField(max_length=255, null=True, blank=True)
     message = models.TextField()
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
