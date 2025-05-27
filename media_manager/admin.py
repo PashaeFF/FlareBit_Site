@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from .models import Image, Video
+from django.core.exceptions import ValidationError
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
@@ -54,6 +55,27 @@ class VideoAdmin(admin.ModelAdmin):
         }),
     )
 
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        field = super().formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'video':
+            field.help_text = 'Maximum upload size: 100MB'
+        return field
+
+    def clean_video(self, video):
+        if video:
+            if video.size > 104857600:  # 100MB in bytes (100 * 1024 * 1024)
+                raise ValidationError(format_html('<span style="color: red;">Video size cannot be greater than 100MB.</span>'))
+        return video
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        old_clean = form.base_fields['video'].clean
+        def clean_with_size(value, field=form.base_fields['video']):
+            value = old_clean(value)
+            return self.clean_video(value)
+        form.base_fields['video'].clean = clean_with_size
+        return form
+    
     def display_video(self, obj):
         if obj.video:
             return format_html('<video width="100" height="60" controls><source src="{}" type="video/mp4"></video>', obj.video.url)
