@@ -55,8 +55,7 @@ class ImageAdmin(admin.ModelAdmin):
 
     def display_full_url(self, obj):
         if obj.image:
-            protocol = 'https' if self.request.is_secure() else 'http'
-            full_url = f"{protocol}://{get_current_site(self.request)}{obj.image.url}"
+            full_url = f"https://{get_current_site(self.request)}{obj.image.url}"
             return format_html('<a href="{}" target="_blank">{}</a>', full_url, full_url)
         return "No URL"
     display_full_url.short_description = 'Full Image URL'
@@ -110,9 +109,8 @@ class VideoAdmin(admin.ModelAdmin):
 
     def display_full_url(self, obj):
         if obj.video:
-            protocol = 'https' if self.request.is_secure() else 'http'
             domain = get_current_site(self.request)
-            full_url = f"{protocol}://{domain}{obj.video.url}"
+            full_url = f"https://{domain}{obj.video.url}"
             return format_html('<a href="{}" target="_blank">{}</a>', full_url, full_url)
         return "No URL"
     display_full_url.short_description = 'Full Video URL'
