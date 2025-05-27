@@ -16,13 +16,35 @@
                             </div>
                             <div class="blog-content">
                                 <div class="blog-meta">
-                                    <a href="/blog/{{ blog.category.slug }}">
-                                        <i class="fa-light fa-calendar-days"></i>
-                                        {{ blog.created_at|date:"d F Y" }}
-                                    </a>
+                                    <i class="fa-light fa-calendar-days"></i>
+                                    {{ blog.created_at|date:"d F Y" }}
                                 </div>
                                 <h2 class="blog-title">{{ blog.title }}</h2>
                                 <p>{{ blog.description|safe }}</p>
+
+                                <div style="text-align: center;">
+                                    <a class="btn btn-primary" style="margin-top: 20px;" href="{{ blog.link }}" target="_blank">
+                                        {% if blog.link_text %}
+                                            <i class="fa-light fa-link"></i> {{ blog.link_text }}
+                                        {% else %}
+                                            <i class="fa-light fa-link"></i> Click Here to Read More
+                                        {% endif %}
+                                    </a>
+                                </div>
+
+                                {% if blog.youtube_embed_code %}
+                                    <div class="blog-video-wrapper" style="margin: 20px 0;">
+                                        {{ blog.youtube_embed_code|safe }}
+                                    </div>
+                                {% endif %}
+                      
+                                {% if blog.video_link %}
+                                    <div class="blog-video-wrapper" style="margin: 20px 0;">
+                                        <video width="100%" controls>
+                                            <source src="{{ blog.video_link }}" type="video/mp4">
+                                        </video>
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="share-links clearfix">
                                 <div class="row justify-content-between">

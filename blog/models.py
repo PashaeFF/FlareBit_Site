@@ -66,7 +66,8 @@ class Blog(models.Model):
     )
     slug = models.SlugField(max_length=255, unique=True, null=True, blank=True)
     category = models.ForeignKey(BlogCategory, on_delete=models.CASCADE, null=True, blank=True)
-    youtube_link = models.URLField(max_length=2000, null=True, blank=True)
+    # youtube_link = models.URLField(max_length=2000, null=True, blank=True)
+    youtube_embed_code = models.TextField(null=True, blank=True)
     video_link = models.URLField(max_length=2000, null=True, blank=True)
     
     is_active = models.BooleanField(default=True)
