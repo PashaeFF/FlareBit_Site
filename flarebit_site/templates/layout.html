@@ -40,29 +40,13 @@
             <div id="preloader" class="preloader">
     <button class="th-btn th-radius preloaderCls">Cancel Preloader</button>
     <div id="loader" class="th-preloader">
-    <div class="animation-preloader">
-        <div class="txt-loading">
-            <img style="width: 300px;" src="/static/flarebit_site/assets/img/flarebit.gif" alt="Flarebit">
+        <div class="animation-preloader">
+            <div class="txt-loading">
+                <img style="width: 300px;" src="/static/flarebit_site/assets/img/flarebit.gif" alt="Flarebit">
+            </div>
         </div>
     </div>
-
-    
     </div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const preloader = document.querySelector('.txt-loading');
-            setTimeout(function() {
-                if (document.readyState === 'complete') {
-                    preloader.style.display = 'none';
-                } else {
-                    window.addEventListener('load', function() {
-                        preloader.style.display = 'none';
-                    });
-                }
-            }, 3000);
-        });
-    </script>
 
 
     {% include 'home_sections/navbar.html' %}
