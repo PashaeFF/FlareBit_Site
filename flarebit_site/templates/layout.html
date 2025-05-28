@@ -41,19 +41,28 @@
     <button class="th-btn th-radius preloaderCls">Cancel Preloader</button>
     <div id="loader" class="th-preloader">
     <div class="animation-preloader">
-    <div class="txt-loading">
-        <span preloader-text="F" class="characters">F</span>
-        <span preloader-text="L" class="characters">L</span>
-        <span preloader-text="A" class="characters">A</span>
-        <span preloader-text="R" class="characters">R</span>
-        <span preloader-text="E" class="characters">E</span>
-        <span preloader-text="B" class="characters">B</span>
-        <span preloader-text="I" class="characters">I</span>
-        <span preloader-text="T" class="characters">T</span>
+        <div class="txt-loading">
+            <img style="width: 300px;" src="/static/flarebit_site/assets/img/flarebit.gif" alt="Flarebit">
+        </div>
+    </div>
+
+    
     </div>
     </div>
-    </div>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const preloader = document.querySelector('.txt-loading');
+            setTimeout(function() {
+                if (document.readyState === 'complete') {
+                    preloader.style.display = 'none';
+                } else {
+                    window.addEventListener('load', function() {
+                        preloader.style.display = 'none';
+                    });
+                }
+            }, 3000);
+        });
+    </script>
 
 
     {% include 'home_sections/navbar.html' %}
