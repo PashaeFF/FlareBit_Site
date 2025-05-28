@@ -36,205 +36,205 @@
             <link rel="stylesheet" href="/static/flarebit_site/assets/css/swiper-bundle.min.css">
             <link rel="stylesheet" href="/static/flarebit_site/assets/css/style.css?v=1.0">
     </head>
-        <body class="gray-body">
-            <div id="preloader" class="preloader">
-    <button class="th-btn th-radius preloaderCls">Cancel Preloader</button>
-    <div id="loader" class="th-preloader">
-        <div class="animation-preloader">
-            <div class="txt-loading">
-                <img style="width: 300px;" src="/static/flarebit_site/assets/img/flarebit.gif" alt="Flarebit">
+    <body class="gray-body">
+        <div id="preloader" class="preloader">
+            <button class="th-btn th-radius preloaderCls">Cancel Preloader</button>
+            <div id="loader" class="th-preloader">
+                <div class="animation-preloader">
+                    <div class="txt-loading">
+                        <img style="width: 300px;" src="/static/flarebit_site/assets/img/flarebit.gif" alt="Flarebit">
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    </div>
 
 
-    {% include 'home_sections/navbar.html' %}
+        {% include 'home_sections/navbar.html' %}
 
-    {% load static %}
-    {% block content %}
-    <div class="th-anim">
-        <img src="{% static 'assets/img/about/about_1_1.jpg' %}" alt="About">
-    </div>
-    {% endblock content %}
+        {% load static %}
+        {% block content %}
+        <div class="th-anim">
+            <img src="{% static 'assets/img/about/about_1_1.jpg' %}" alt="About">
+        </div>
+        {% endblock content %}
 
-    <footer class="footer-wrapper footer-layout2" data-bg-src="/static/flarebit_site/assets/img/bg/footer_bg_1.jpg">
-        <div class="widget-area">
-            <div class="container">
-                <div class="row justify-content-between">
-                    <div class="col-md-6 col-xxl-3 col-xl-4">
-                        <div class="widget footer-widget">
-                            <div class="th-widget-about">
-                                <div class="about-logo">
-                                    <a href="index.html">
-                                        {% if site_settings.footer_logo %}
-                                            <img style="width: 150px;" src='{{ site_settings.footer_logo.url }}' alt="Webteck">
+        <footer class="footer-wrapper footer-layout2" data-bg-src="/static/flarebit_site/assets/img/bg/footer_bg_1.jpg">
+            <div class="widget-area">
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <div class="col-md-6 col-xxl-3 col-xl-4">
+                            <div class="widget footer-widget">
+                                <div class="th-widget-about">
+                                    <div class="about-logo">
+                                        <a href="index.html">
+                                            {% if site_settings.footer_logo %}
+                                                <img style="width: 150px;" src='{{ site_settings.footer_logo.url }}' alt="Webteck">
+                                            {% endif %}
+                                        </a>    
+                                    </div>
+                                    <p class="about-text">{{ site_settings.footer_description|default:"" }}</p>
+                                    <div class="th-social">
+                                        {% if site_settings.facebook %}
+                                        <a href="{{ site_settings.facebook }}">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
                                         {% endif %}
-                                    </a>    
+                                        {% if site_settings.instagram %}
+                                        <a href="{{ site_settings.instagram }}">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                        {% endif %}
+                                        {% if site_settings.twitter %}
+                                        <a href="{{ site_settings.twitter }}">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                        {% endif %}
+                                        {% if site_settings.linkedin %}
+                                        <a href="{{ site_settings.linkedin }}">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                        {% endif %}
+                                        {% if site_settings.youtube %}
+                                        <a href="{{ site_settings.youtube }}">
+                                            <i class="fab fa-youtube"></i>
+                                        </a>
+                                        {% endif %}
+                                        {% if whatsapp_number %}
+                                        <a href="https://wa.me/{{ whatsapp_number }}">
+                                            <i class="fab fa-whatsapp"></i>
+                                        </a>
+                                        {% endif %}
+                                        {% if site_settings.telegram %}
+                                        <a href="{{ site_settings.telegram }}">
+                                            <i class="fab fa-telegram"></i>
+                                        </a>
+                                        {% endif %}
+                                        {% if site_settings.tiktok %}
+                                        <a href="{{ site_settings.tiktok }}">
+                                            <i class="fab fa-tiktok"></i>
+                                        </a>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                                <p class="about-text">{{ site_settings.footer_description|default:"" }}</p>
-                                <div class="th-social">
-                                    {% if site_settings.facebook %}
-                                    <a href="{{ site_settings.facebook }}">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-auto">
+                            <div class="widget widget_nav_menu footer-widget">
+                                <h3 class="widget_title">Quick Links</h3>
+                                <div class="menu-all-pages-container">
+                                    <ul class="menu">
+                                        <li>
+                                            <a href="/about">About Us</a>
+                                        </li>
+                                        <li>
+                                            <a href="/services">Services</a>
+                                        </li>
+                                        <li>
+                                            <a href="/blogs">Blogs</a>
+                                        </li>
+                                        <li>
+                                            <a href="/contact">Contact Us</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-auto">
+                            <div class="widget footer-widget">
+                                <h3 class="widget_title">Contact Us</h3>
+                                <div class="th-widget-contact">
+                                    {% if phone_number %}
+                                        <div class="contact-feature">
+                                            <div class="icon-btn">
+                                                <i class="fa-solid fa-phone"></i>
+                                            </div>
+                                            <div class="media-body">
+                                                <p class="contact-feature_label">Phone Number</p>
+                                                <a href="tel:{{ phone_number }}" class="contact-feature_link">{{ phone_number }}</a>
+                                            </div>
+                                        </div>
                                     {% endif %}
-                                    {% if site_settings.instagram %}
-                                    <a href="{{ site_settings.instagram }}">
-                                        <i class="fab fa-instagram"></i>
-                                    </a>
+                                    {% if site_settings.email %}
+                                        <div class="contact-feature">
+                                            <div class="icon-btn">
+                                                <i class="fa-solid fa-envelope"></i>
+                                            </div>
+                                            <div class="media-body">
+                                                <p class="contact-feature_label">Email address</p>
+                                                <a href="mailto:{{ site_settings.email }}" class="contact-feature_link">{{ site_settings.email }}</a>
+                                            </div>
+                                        </div>
                                     {% endif %}
-                                    {% if site_settings.twitter %}
-                                    <a href="{{ site_settings.twitter }}">
-                                        <i class="fab fa-twitter"></i>
-                                    </a>
-                                    {% endif %}
-                                    {% if site_settings.linkedin %}
-                                    <a href="{{ site_settings.linkedin }}">
-                                        <i class="fab fa-linkedin-in"></i>
-                                    </a>
-                                    {% endif %}
-                                    {% if site_settings.youtube %}
-                                    <a href="{{ site_settings.youtube }}">
-                                        <i class="fab fa-youtube"></i>
-                                    </a>
-                                    {% endif %}
-                                    {% if whatsapp_number %}
-                                    <a href="https://wa.me/{{ whatsapp_number }}">
-                                        <i class="fab fa-whatsapp"></i>
-                                    </a>
-                                    {% endif %}
-                                    {% if site_settings.telegram %}
-                                    <a href="{{ site_settings.telegram }}">
-                                        <i class="fab fa-telegram"></i>
-                                    </a>
-                                    {% endif %}
-                                    {% if site_settings.tiktok %}
-                                    <a href="{{ site_settings.tiktok }}">
-                                        <i class="fab fa-tiktok"></i>
-                                    </a>
+                                    {% if site_settings.address %}
+                                        <div class="contact-feature">
+                                            <div class="icon-btn">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                            </div>
+                                            <div class="media-body">
+                                                <p class="contact-feature_label">office location</p>
+                                                <a href="https://www.google.com/maps" class="contact-feature_link">{{ site_settings.address }}</a>
+                                            </div>
+                                        </div>
                                     {% endif %}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-xl-auto">
-                        <div class="widget widget_nav_menu footer-widget">
-                            <h3 class="widget_title">Quick Links</h3>
-                            <div class="menu-all-pages-container">
-                                <ul class="menu">
+                </div>
+            </div>
+            <div class="copyright-wrap bg-theme">
+                <div class="container">
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col-lg-6">
+                            <p class="copyright-text">
+                                Copyright <i class="fal fa-copyright"></i>
+                                <script>document.write(new Date().getFullYear())</script> <a href="https://flarebit.qrme.az">Flarebit</a>
+                                . All Rights Reserved.
+                            </p>
+                        </div>
+                        <div class="col-lg-6 text-end d-none d-lg-block">
+                            <div class="footer-links">
+                                <ul>
                                     <li>
-                                        <a href="/about">About Us</a>
+                                        <a href="/about">Terms & Condition</a>
                                     </li>
                                     <li>
-                                        <a href="/services">Services</a>
+                                        <a href="/about">Careers</a>
                                     </li>
                                     <li>
-                                        <a href="/blogs">Blogs</a>
-                                    </li>
-                                    <li>
-                                        <a href="/contact">Contact Us</a>
+                                        <a href="/about">Privacy Policy</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-xl-auto">
-                        <div class="widget footer-widget">
-                            <h3 class="widget_title">Contact Us</h3>
-                            <div class="th-widget-contact">
-                                {% if phone_number %}
-                                    <div class="contact-feature">
-                                        <div class="icon-btn">
-                                            <i class="fa-solid fa-phone"></i>
-                                        </div>
-                                        <div class="media-body">
-                                            <p class="contact-feature_label">Phone Number</p>
-                                            <a href="tel:{{ phone_number }}" class="contact-feature_link">{{ phone_number }}</a>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                {% if site_settings.email %}
-                                    <div class="contact-feature">
-                                        <div class="icon-btn">
-                                            <i class="fa-solid fa-envelope"></i>
-                                        </div>
-                                        <div class="media-body">
-                                            <p class="contact-feature_label">Email address</p>
-                                            <a href="mailto:{{ site_settings.email }}" class="contact-feature_link">{{ site_settings.email }}</a>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                {% if site_settings.address %}
-                                    <div class="contact-feature">
-                                        <div class="icon-btn">
-                                            <i class="fa-solid fa-location-dot"></i>
-                                        </div>
-                                        <div class="media-body">
-                                            <p class="contact-feature_label">office location</p>
-                                            <a href="https://www.google.com/maps" class="contact-feature_link">{{ site_settings.address }}</a>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
-        </div>
-        <div class="copyright-wrap bg-theme">
-            <div class="container">
-                <div class="row justify-content-between align-items-center">
-                    <div class="col-lg-6">
-                        <p class="copyright-text">
-                            Copyright <i class="fal fa-copyright"></i>
-                            <script>document.write(new Date().getFullYear())</script> <a href="https://flarebit.qrme.az">Flarebit</a>
-                            . All Rights Reserved.
-                        </p>
-                    </div>
-                    <div class="col-lg-6 text-end d-none d-lg-block">
-                        <div class="footer-links">
-                            <ul>
-                                <li>
-                                    <a href="/about">Terms & Condition</a>
-                                </li>
-                                <li>
-                                    <a href="/about">Careers</a>
-                                </li>
-                                <li>
-                                    <a href="/about">Privacy Policy</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+        </footer>
+
+            <div class="scroll-top">
+            <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;">
+            </path>
+            </svg>
             </div>
-        </div>
-    </footer>
 
-        <div class="scroll-top">
-        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
-        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;">
-        </path>
-        </svg>
-        </div>
-
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="{% static 'flarebit_site/assets/js/vendor/jquery-3.7.1.min.js' %}"></script>
-        <script src="{% static 'flarebit_site/assets/js/swiper-bundle.min.js' %}"></script>
-        <script src="{% static 'flarebit_site/assets/js/bootstrap.min.js' %}"></script>
-        <script src="{% static 'flarebit_site/assets/js/jquery.magnific-popup.min.js' %}"></script>
-        <script src="{% static 'flarebit_site/assets/js/jquery.counterup.min.js' %}"></script>
-        <script src="{% static 'flarebit_site/assets/js/circle-progress.js' %}"></script>
-        <script src="{% static 'flarebit_site/assets/js/jquery-ui.min.js' %}"></script>
-        <script src="{% static 'flarebit_site/assets/js/imagesloaded.pkgd.min.js' %}"></script>
-        <script src="{% static 'flarebit_site/assets/js/isotope.pkgd.min.js' %}"></script>
-        <script src="{% static 'flarebit_site/assets/js/tilt.jquery.min.js' %}"></script>
-        <script src="{% static 'flarebit_site/assets/js/ScrollTrigger.min.js' %}"></script>
-        <script src="{% static 'flarebit_site/assets/js/smooth-scroll.js' %}"></script>
-        <script src="{% static 'flarebit_site/assets/js/particles.min.js' %}"></script>
-        <script src="{% static 'flarebit_site/assets/js/particles-config.js' %}"></script>
-        <script src="{% static 'flarebit_site/assets/js/main.js' %}"></script>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="{% static 'flarebit_site/assets/js/vendor/jquery-3.7.1.min.js' %}"></script>
+            <script src="{% static 'flarebit_site/assets/js/swiper-bundle.min.js' %}"></script>
+            <script src="{% static 'flarebit_site/assets/js/bootstrap.min.js' %}"></script>
+            <script src="{% static 'flarebit_site/assets/js/jquery.magnific-popup.min.js' %}"></script>
+            <script src="{% static 'flarebit_site/assets/js/jquery.counterup.min.js' %}"></script>
+            <script src="{% static 'flarebit_site/assets/js/circle-progress.js' %}"></script>
+            <script src="{% static 'flarebit_site/assets/js/jquery-ui.min.js' %}"></script>
+            <script src="{% static 'flarebit_site/assets/js/imagesloaded.pkgd.min.js' %}"></script>
+            <script src="{% static 'flarebit_site/assets/js/isotope.pkgd.min.js' %}"></script>
+            <script src="{% static 'flarebit_site/assets/js/tilt.jquery.min.js' %}"></script>
+            <script src="{% static 'flarebit_site/assets/js/ScrollTrigger.min.js' %}"></script>
+            <script src="{% static 'flarebit_site/assets/js/smooth-scroll.js' %}"></script>
+            <script src="{% static 'flarebit_site/assets/js/particles.min.js' %}"></script>
+            <script src="{% static 'flarebit_site/assets/js/particles-config.js' %}"></script>
+            <script src="{% static 'flarebit_site/assets/js/main.js' %}"></script>
 
         </body>
         </html>
