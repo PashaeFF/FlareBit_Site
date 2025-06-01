@@ -1,3 +1,6 @@
+
+    
+
 <!-- Mobile Navbar -->
 <div class="th-menu-wrapper">
     <div class="th-menu-area text-center">
@@ -6,10 +9,12 @@
     </i>
     </button>
     <div class="mobile-logo">
-    <a class="icon-masking" href="index.html">
+    <a class="icon-masking" href="/">
     <span class="mask-icon bg-mask" style="mask-image: url(&quot;static/flarebit_site/assets/img/logo.svg&quot;);">
     </span>
-    <img src="static/flarebit_site/assets/img/logo.svg" alt="Webteck">
+    {% if site_settings.logo %}
+        <img src="{{ site_settings.logo.url }}" alt="Logo" style="width: 150px;">
+    {% endif %}
     </a>
     </div>
 <div class="th-mobile-menu">
@@ -29,6 +34,10 @@
     <li>
         <a href="/contact">Contact</a>
     </li>
+    <li>
+        <a href="#" class="th-btn style-radius open-modal-btn" id="openModalBtn">Request A Quote</a>
+    </li>
+
 </ul>
 </div>
 </div>
@@ -76,14 +85,25 @@
     </button>
     </div>
     <div class="col-auto d-xxl-block d-none">
-    {% if phone_number %}
+    <!-- {% if phone_number %}
         <div class="header-button">
             <a href="tel:{{ phone_number }}" class="th-btn style-radius">Call us: {{ phone_number }}</a>
         </div>
-    {% endif %}
+    {% endif %} -->
+<!-- Button -->
+
+<!-- Modal Trigger Button -->
+<div class="header-button">
+    <a href="#" class="th-btn style-radius open-modal-btn">Request A Quote</a>
+</div>
+
+    {% include 'request-modal.html' %}
+
+
     </div>
     </div>
     </div>
     </div>
     </div>
     </header>
+

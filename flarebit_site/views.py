@@ -4,6 +4,7 @@ from slider.models import Slider, SliderSettings
 from about_page.models import AboutPage
 from blog.models import Blog, BlogCategory
 from services.models import Service
+from project_request.models import HowDidYouHearAboutUs
 from contact_page.models import *
 from django.contrib import messages
 from django.http import JsonResponse
@@ -21,6 +22,8 @@ def home(request):
     slider_settings = SliderSettings.objects.first()
     whatsapp_number = WhatsappNumber.objects.filter(is_active=True, general_number=True).first()
     services = Service.objects.filter(is_active=True, ordering__gt=0).order_by('ordering')
+    services_all = Service.objects.filter(is_active=True).order_by('ordering')
+    how_did_you_hear_about_us = HowDidYouHearAboutUs.objects.all()
     
     context = {
         'title': settings.title if settings else 'Flarebit',
@@ -30,6 +33,8 @@ def home(request):
         'services': services if services else None, 
         'phone_number': phone_number.number if phone_number else None,
         'whatsapp_number': whatsapp_number.number if whatsapp_number else None,
+        'services_all': services_all if services_all else None,
+        'how_did_you_hear_about_us': how_did_you_hear_about_us if how_did_you_hear_about_us else None,
     }
     return render(request, 'home.html', context)
 
@@ -54,6 +59,7 @@ def services(request):
     services_all = Service.objects.filter(is_active=True).order_by('ordering')
     whatsapp_number = WhatsappNumber.objects.filter(is_active=True, general_number=True).first()
     phone_number = PhoneNumber.objects.filter(is_active=True).first()
+    how_did_you_hear_about_us = HowDidYouHearAboutUs.objects.all()
     context = {
         'title': f"{settings.title} - Services" if settings else 'Services',
         'site_settings': settings if settings else None,
@@ -61,6 +67,8 @@ def services(request):
         'page_name': 'Services',
         'whatsapp_number': whatsapp_number.number if whatsapp_number else None,
         'phone_number': phone_number.number if phone_number else None,
+        'how_did_you_hear_about_us': how_did_you_hear_about_us if how_did_you_hear_about_us else None,
+        'services_all': services_all if services_all else None,
     }
     return render(request, 'services.html', context)
 
@@ -71,6 +79,7 @@ def service_details(request, slug):
         services_all = Service.objects.filter(is_active=True).order_by('ordering')
         whatsapp_number = WhatsappNumber.objects.filter(is_active=True, general_number=True).first()
         phone_number = PhoneNumber.objects.filter(is_active=True).first()
+        how_did_you_hear_about_us = HowDidYouHearAboutUs.objects.all()
         context = {
             'title': f"{settings.title} - {service.title}",
             'site_settings': settings if settings else None,
@@ -80,6 +89,8 @@ def service_details(request, slug):
             'page_name': 'Services',
             'detail_name': service.title,
             'services': services_all if services_all else None,
+            'how_did_you_hear_about_us': how_did_you_hear_about_us if how_did_you_hear_about_us else None,
+            'services_all': services_all if services_all else None,
         }
         return render(request, 'service-details.html', context)
     except Service.DoesNotExist:
@@ -93,7 +104,9 @@ def blog(request):
     whatsapp_number = WhatsappNumber.objects.filter(is_active=True, general_number=True).first()
     phone_number = PhoneNumber.objects.filter(is_active=True).first()
     recent_blogs = Blog.objects.filter(is_active=True).order_by('-created_at')[:5]
-    
+    services_all = Service.objects.filter(is_active=True).order_by('ordering')
+    how_did_you_hear_about_us = HowDidYouHearAboutUs.objects.all()
+
     paginator = Paginator(blogs, 10)
     page = request.GET.get('page', 1)
     
@@ -115,6 +128,8 @@ def blog(request):
         'page_obj': blogs,
         'page_range': get_page_range(paginator, blogs, 5),
         'recent_blogs': recent_blogs if recent_blogs else None,
+        'services_all': services_all if services_all else None,
+        'how_did_you_hear_about_us': how_did_you_hear_about_us if how_did_you_hear_about_us else None,
     }
     return render(request, 'blog.html', context)
 
@@ -127,6 +142,9 @@ def blog_category(request, slug):
     phone_number = PhoneNumber.objects.filter(is_active=True).first()
     blogs = Blog.objects.filter(is_active=True, category=category).order_by('-created_at')
     recent_blogs = Blog.objects.filter(is_active=True).order_by('-created_at')[:5]
+    services_all = Service.objects.filter(is_active=True).order_by('ordering')
+    how_did_you_hear_about_us = HowDidYouHearAboutUs.objects.all()
+
     paginator = Paginator(blogs, 10)
     page = request.GET.get('page', 1)
 
@@ -148,6 +166,8 @@ def blog_category(request, slug):
         'page_obj': blogs,
         'page_range': get_page_range(paginator, blogs, 5),
         'recent_blogs': recent_blogs if recent_blogs else None,
+        'services_all': services_all if services_all else None,
+        'how_did_you_hear_about_us': how_did_you_hear_about_us if how_did_you_hear_about_us else None,
     }
     return render(request, 'blog.html', context)
 
@@ -160,7 +180,8 @@ def blog_details(request, category_slug, slug):
         whatsapp_number = WhatsappNumber.objects.filter(is_active=True, general_number=True).first()
         phone_number = PhoneNumber.objects.filter(is_active=True).first()
         recent_blogs = Blog.objects.filter(is_active=True).order_by('-created_at')[:5]
-
+        services_all = Service.objects.filter(is_active=True).order_by('ordering')
+        how_did_you_hear_about_us = HowDidYouHearAboutUs.objects.all()
         context = {
             'request': request,
             'title': f"{settings.title} - {blog.title}",
@@ -171,7 +192,9 @@ def blog_details(request, category_slug, slug):
             'recent_blogs': recent_blogs if recent_blogs else None,
             'page_name': 'Blog',
             'detail_name': blog.title,
-            'site_settings': settings if settings else None
+            'site_settings': settings if settings else None,
+            'services_all': services_all if services_all else None,
+            'how_did_you_hear_about_us': how_did_you_hear_about_us if how_did_you_hear_about_us else None,
         }
         return render(request, 'blog-details.html', context)
     except Blog.DoesNotExist:
@@ -185,6 +208,8 @@ def contact(request):
     email = Email.objects.filter(is_active=True).all()
     phone_numbers = PhoneNumber.objects.filter(is_active=True).all()
     map_embed = MapEmbed.objects.filter(is_active=True).first()
+    how_did_you_hear_about_us = HowDidYouHearAboutUs.objects.all()
+    services_all = Service.objects.filter(is_active=True).order_by('ordering')
     
     flash_message = request.session.get('message', None)
     # if flash_message:
@@ -202,6 +227,8 @@ def contact(request):
         'phone_numbers': phone_numbers if phone_numbers else None,
         'map_embed': map_embed.embed_code if map_embed else None,
         'page_name': 'Contact Us',
+        'how_did_you_hear_about_us': how_did_you_hear_about_us if how_did_you_hear_about_us else None,
+        'services_all': services_all if services_all else None,
     }
     print(flash_message)
     return render(request, 'contact.html', context)
@@ -337,3 +364,28 @@ def send_email(request):
             return redirect('/contact?#contact-sec')
 
     return redirect('/contact?#contact-sec')
+
+
+from django.shortcuts import redirect
+from django.contrib import messages
+from flarebit_site.serializers import ProjectRequestSerializer, ProjectFiles
+
+def request_a_quote(request):
+    if request.method == 'POST':
+        serializer = ProjectRequestSerializer(data=request.POST)
+        if serializer.is_valid():
+            project_request = serializer.save()
+
+            # Faylları ayrıca qeydiyyatdan keçir
+            for f in request.FILES.getlist('file'):  # 'file' - input-un name atributu
+                ProjectFiles.objects.create(project_request=project_request, file=f)
+
+            messages.success(request, "Quote request created successfully.")
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            for field, errors in serializer.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+

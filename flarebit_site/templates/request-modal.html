@@ -1,0 +1,204 @@
+<style>
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background-color: rgba(0,0,0,0.4);
+    padding: 20px; /* Mobil üçün boşluq */
+    box-sizing: border-box;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+@media screen and (max-width: 480px) {
+    .modal-content {
+        padding: 15px;
+    }
+
+    .modal-content label,
+    .modal-content input,
+    .modal-content select,
+    .modal-content textarea {
+        font-size: 14px;
+    }
+}
+
+
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        cursor: pointer;
+    }
+    
+
+#drop-area {
+    border: 2px dashed #aaa;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+#drop-area.hover {
+    border-color: #00aaff;
+}
+
+
+        </style>
+        
+<!-- Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+
+        <!-- Logo -->
+        <div style="text-align: center; margin-bottom: 20px;">
+            {% if site_settings.logo %}
+                <img src="{{ site_settings.logo.url }}" alt="Logo" style="width: 200px;">
+            {% endif %}
+        </div>
+
+        <!-- Form Fields -->
+        <form id="requestForm" enctype="multipart/form-data" action="{% url 'flarebit_site:request_a_quote' %}" method="post">
+            {% csrf_token %}
+            <label for="description">Description</label>
+            <textarea name="description" id="description" placeholder="Description" required></textarea>
+
+            <label for="service">Service</label>
+            <select name="service" id="service">
+                <option value="">Select Service</option>
+                {% if services_all %}
+                    {% for service in services_all %}
+                        <option value="{{ service.id }}">{{ service.title }}</option>
+                    {% endfor %}
+                {% endif %}
+            </select>
+
+            <label for="request_date">Request Date</label>
+            <input type="date" name="request_date" id="request_date" placeholder="Request Date">
+
+            <label for="contact_name">Contact Name</label>
+            <input type="text" name="contact_name" id="contact_name" placeholder="Contact Name">
+
+            <label for="organization">Organization</label>
+            <input type="text" name="organization" id="organization" placeholder="Organization">
+
+            <label for="job_title">Job Title</label>
+            <input type="text" name="job_title" id="job_title" placeholder="Job Title">
+
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" placeholder="Email" required>
+
+            <label for="phone_number">Phone Number</label>
+            <input type="text" name="phone_number" id="phone_number" placeholder="Phone Number">
+
+            <label for="how_did_you_hear_about_us">How did you hear about us?</label>
+            <select name="how_did_you_hear_about_us" id="how_did_you_hear_about_us">
+                <option value="">Select an option</option>
+                {% if how_did_you_hear_about_us %}
+                    {% for how_did_you_hear_about_us in how_did_you_hear_about_us %}
+                        <option value="{{ how_did_you_hear_about_us.id }}">{{ how_did_you_hear_about_us.title }}</option>
+                    {% endfor %}
+                {% endif %}
+            </select>
+
+            <!-- File Upload -->
+            <label for="file_upload">File Upload</label>
+            <div id="drop-area">
+                <p id="file-label">Faylı bura sürükləyin və ya klikləyin</p>
+                <input type="file" name="file" id="file_upload" hidden>
+            </div>
+
+            <button type="submit" class="th-btn" style="margin-top: 15px;">Göndər</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById("myModal");
+    const closeBtn = document.querySelector(".modal .close");
+
+    // Bütün open-modal-btn class'lı elementləri tap
+    const openButtons = document.querySelectorAll('.open-modal-btn');
+    
+    openButtons.forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            modal.style.display = "block";
+        });
+    });
+
+    closeBtn.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+});
+
+
+    
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const dropArea = document.getElementById('drop-area');
+    const fileInput = document.getElementById('file_upload');
+    const fileLabel = document.getElementById('file-label');
+
+    // Sürüklə burax
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropArea.classList.add('hover');
+        }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropArea.classList.remove('hover');
+        }, false);
+    });
+
+    // Fayl buraxıldıqda
+    dropArea.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files; // Faylları input-a set et
+            fileLabel.textContent = "Seçilmiş fayl: " + files[0].name;
+        }
+    });
+
+    // Klik ilə fayl seçmək
+    dropArea.addEventListener('click', () => fileInput.click());
+
+    // Fayl input ilə seçiləndə yazını yenilə
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            fileLabel.textContent = "Seçilmiş fayl: " + fileInput.files[0].name;
+        }
+    });
+    });
+</script>
