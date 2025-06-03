@@ -11,3 +11,16 @@ def get_page_range(paginator, page, show_pages):
     return range(start_page, end_page + 1)
 
 
+ALLOWED_MIME_TYPES = [
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+    'image/webp',
+    'video/mp4',
+    'application/pdf',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+]
+
+ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.webp', '.png', '.gif', '.mp4', '.pdf', '.docx', '.doc', '.xlsx']

@@ -9,11 +9,12 @@ from contact_page.models import *
 from django.contrib import messages
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .utils import get_page_range
+from .utils import get_page_range, ALLOWED_MIME_TYPES, ALLOWED_EXTENSIONS
 from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
-from django.template.loader import render_to_string
-# Create your views here.
+from flarebit_site.serializers import ProjectRequestSerializer, ProjectFiles
+import os
+
 
 def home(request):
     settings = SiteSettings.objects.first()
@@ -211,13 +212,8 @@ def contact(request):
     how_did_you_hear_about_us = HowDidYouHearAboutUs.objects.all()
     services_all = Service.objects.filter(is_active=True).order_by('ordering')
     
-    flash_message = request.session.get('message', None)
-    # if flash_message:
-    #     del request.session['message']
-    #     request.session.modified = True
 
     context = {
-        'flash_message': {"text": flash_message.get("text"), "type": flash_message.get("type")} if flash_message else None,
         'title': f"{settings.title} - Contact Us" if settings else 'Contact Us',
         'site_settings': settings if settings else None,
         'whatsapp_number': whatsapp_number.number if whatsapp_number else None,
@@ -230,7 +226,6 @@ def contact(request):
         'how_did_you_hear_about_us': how_did_you_hear_about_us if how_did_you_hear_about_us else None,
         'services_all': services_all if services_all else None,
     }
-    print(flash_message)
     return render(request, 'contact.html', context)
 
 
@@ -245,18 +240,12 @@ def send_email(request):
             contact_emails = ContactEmail.objects.filter(is_active=True).all().values_list('email', flat=True)
             
             if not all([name, user_email, subject, message]):
-                request.session['message'] = {
-                    'type': 'error',
-                    'text': 'Please fill all fields'
-                }
+                messages.error(request, 'Please fill in all fields.')
                 return redirect('/contact?#contact-sec')
             
             # Önce e-posta alıcıları olup olmadığını kontrol edelim
             if not contact_emails:
-                request.session['message'] = {
-                    'type': 'error',
-                    'text': 'No contact email addresses configured in the system.'
-                }
+                messages.error(request, 'No contact email addresses configured in the system.')
                 return redirect('/contact?#contact-sec')
 
             # HTML e-posta içeriği
@@ -341,34 +330,20 @@ def send_email(request):
                     message=message
                 )
 
-                request.session['message'] = {
-                    'type': 'success',
-                    'text': 'Your message has been sent. We will contact you as soon as possible.'
-                }
+                messages.success(request, 'Your message has been sent. We will contact you as soon as possible.')
                 return redirect('/contact?#contact-sec')
 
             except Exception as e:
                 print(f"Hata detayı: {str(e)}")  # Hatayı konsola yazdıralım
-                request.session['message'] = {
-                    'type': 'error',
-                    'text': f'An error occurred: {str(e)}'
-                }
+                messages.error(request, f'An error occurred: {str(e)}')
                 return redirect('/contact?#contact-sec')
 
         except Exception as e:
             print(f"Genel hata detayı: {str(e)}")  # Genel hatayı konsola yazdıralım
-            request.session['message'] = {
-                'type': 'error',
-                'text': f'An error occurred: {str(e)}'
-            }
+            messages.error(request, f'An error occurred: {str(e)}')
             return redirect('/contact?#contact-sec')
-
     return redirect('/contact?#contact-sec')
 
-
-from django.shortcuts import redirect
-from django.contrib import messages
-from flarebit_site.serializers import ProjectRequestSerializer, ProjectFiles
 
 def request_a_quote(request):
     if request.method == 'POST':
@@ -376,11 +351,16 @@ def request_a_quote(request):
         if serializer.is_valid():
             project_request = serializer.save()
 
-            # Faylları ayrıca qeydiyyatdan keçir
-            for f in request.FILES.getlist('file'):  # 'file' - input-un name atributu
-                ProjectFiles.objects.create(project_request=project_request, file=f)
-
-            messages.success(request, "Quote request created successfully.")
+            for f in request.FILES.getlist('file'):
+                ext = os.path.splitext(f.name)[1].lower()
+                if f.content_type in ALLOWED_MIME_TYPES and ext in ALLOWED_EXTENSIONS:
+                    ProjectFiles.objects.create(project_request=project_request, file=f)
+                else:
+                    messages.warning(
+                        request,
+                        f"File type not allowed: {f.name}. Only images, videos, PDFs, DOC/DOCX, XLSX are accepted."
+                    )
+            messages.success(request, "Your message has been sent. We will contact you as soon as possible.")
             return redirect(request.META.get('HTTP_REFERER', '/'))
         else:
             for field, errors in serializer.errors.items():

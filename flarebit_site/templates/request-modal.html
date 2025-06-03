@@ -122,7 +122,14 @@
             <label for="file_upload">File Upload</label>
             <div id="drop-area">
                 <p id="file-label">Faylı bura sürükləyin və ya klikləyin</p>
-                <input type="file" name="file" id="file_upload" hidden>
+                <input
+                type="file"
+                name="file"
+                id="file_upload"
+                hidden
+                multiple
+                accept=".jpg,.jpeg,.webp,.png,.gif,.mp4,.pdf,.doc,.docx,.xlsx"
+            >
             </div>
 
             <button type="submit" class="th-btn" style="margin-top: 15px;">Göndər</button>

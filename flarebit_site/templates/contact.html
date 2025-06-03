@@ -92,10 +92,9 @@
                                 <div class="form-group col-md-6">
                                     <select name="subject" id="subject" class="form-select">
                                         <option value="" disabled="disabled" selected="selected" hidden>Select Subject</option>
-                                        <option value="Web Development">Web Development</option>
-                                        <option value="Brand Marketing">Brand Marketing</option>
-                                        <option value="UI/UX Designing">UI/UX Designing</option>
-                                        <option value="Digital Marketing">Digital Marketing</option>
+                                        {% for service in services_all %}
+                                            <option value="{{ service.id }}">{{ service.title }}</option>
+                                        {% endfor %}
                                     </select>
                                     <i class="fal fa-chevron-down"></i>
                                 </div>
@@ -115,11 +114,6 @@
                             </div>
                             
                         </form>
-                        {% if flash_message %}
-                            <div class="alert {% if flash_message.type == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
-                                {{ flash_message.text }}
-                            </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
