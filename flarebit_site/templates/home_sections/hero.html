@@ -12,10 +12,11 @@
                             </div>
                             <div class="container">
                                 <div class="hero-style6">
-                                    <span class="sub-title" data-ani="slideinup" data-ani-delay="0.5s">{{ slider.title }}</span>
+                                    
                                     {% if slider.description %}
-                                        <h1 class="hero-title" data-ani="slideinup" data-ani-delay="0.6s">{{ slider.description }}</h1>
+                                        <h2 class="hero-title" data-ani="slideinup" data-ani-delay="0.6s">{{ slider.title }}</h1>
                                     {% endif %}
+                                    <span class="sub-title" data-ani="slideinup" data-ani-delay="0.5s">{{ slider.description }}</span>
                                     
                                     {% if slider_settings.slider_text %}
                                         <div class="hero-big">
@@ -46,12 +47,14 @@
                 {% endfor %}
             </div>
         </div>
-        <button data-slider-prev="#heroSlide3" class="slider-arrow slider-prev">
-            <i class="far fa-arrow-left"></i>
-        </button>
-        <button data-slider-next="#heroSlide3" class="slider-arrow slider-next">
-            <i class="far fa-arrow-right"></i>
-        </button>
+        {% if sliders|length > 1 %}
+            <button data-slider-prev="#heroSlide3" class="slider-arrow slider-prev">
+                <i class="far fa-arrow-left"></i>
+            </button>
+            <button data-slider-next="#heroSlide3" class="slider-arrow slider-next">
+                <i class="far fa-arrow-right"></i>
+            </button>
+        {% endif %}
     </div>
 {% endif %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

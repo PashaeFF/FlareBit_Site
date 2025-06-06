@@ -345,22 +345,42 @@ def send_email(request):
     return redirect('/contact?#contact-sec')
 
 
+from django.db import transaction
+
 def request_a_quote(request):
     if request.method == 'POST':
         serializer = ProjectRequestSerializer(data=request.POST)
         if serializer.is_valid():
-            project_request = serializer.save()
+            try:
+                with transaction.atomic():
+                    project_request = serializer.save()
 
-            for f in request.FILES.getlist('file'):
-                ext = os.path.splitext(f.name)[1].lower()
-                if f.content_type in ALLOWED_MIME_TYPES and ext in ALLOWED_EXTENSIONS:
-                    ProjectFiles.objects.create(project_request=project_request, file=f)
-                else:
-                    messages.warning(
-                        request,
-                        f"File type not allowed: {f.name}. Only images, videos, PDFs, DOC/DOCX, XLSX are accepted."
-                    )
-            messages.success(request, "Your message has been sent. We will contact you as soon as possible.")
+                    MAX_FILE_SIZE = 20 * 1024 * 1024  # 20MB in bytes
+
+                    for f in request.FILES.getlist('file'):
+                        ext = os.path.splitext(f.name)[1].lower()
+
+                        if f.size > MAX_FILE_SIZE:
+                            messages.warning(
+                                request,
+                                f"File too large: {f.name}. Maximum allowed size is 20MB."
+                            )
+                            raise ValueError("File too large")
+
+                        if f.content_type in ALLOWED_MIME_TYPES and ext in ALLOWED_EXTENSIONS:
+                            ProjectFiles.objects.create(project_request=project_request, file=f)
+                        else:
+                            messages.warning(
+                                request,
+                                f"File type not allowed: {f.name}. Only images, videos, PDFs, DOC/DOCX, XLSX are accepted."
+                            )
+                            raise ValueError("Invalid file type")
+
+                    messages.success(request, "Your message has been sent. We will contact you as soon as possible.")
+            except Exception as e:
+                # Opsiyonel: Hata günlüğü veya gelişmiş işleme
+                return redirect(request.META.get('HTTP_REFERER', '/'))
+
             return redirect(request.META.get('HTTP_REFERER', '/'))
         else:
             for field, errors in serializer.errors.items():
@@ -368,4 +388,5 @@ def request_a_quote(request):
                     messages.error(request, f"{field}: {error}")
             return redirect(request.META.get('HTTP_REFERER', '/'))
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
 

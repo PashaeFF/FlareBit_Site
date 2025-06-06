@@ -78,7 +78,7 @@
                             <h2 class="sec-title">Have Any Questions?</h2>
                             <p class="sec-text">Enthusiastically disintermediate one-to-one leadership via business e-commerce. Dramatically reintermediate compelling process improvements rather than empowered relationships.</p>
                         </div>
-                        <form action="/contact/send_email/" method="POST" class="contact-form ajax-contact">
+                        <form action="/contact/send_email/" method="POST" class="contact-form">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="form-group col-md-6">
@@ -86,7 +86,7 @@
                                     <i class="fal fa-user"></i>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Email Address">
+                                    <input type="email" class="form-control" name="email" placeholder="Email Address">
                                     <i class="fal fa-envelope"></i>
                                 </div>
                                 <div class="form-group col-md-6">
