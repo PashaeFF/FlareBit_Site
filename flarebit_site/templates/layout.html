@@ -60,6 +60,8 @@
         {% endif %}
 
         {% load static %}
+
+    {% include 'request-modal.html' %}
         {% block content %}
         <div class="th-anim">
             <img src="{% static 'assets/img/about/about_1_1.jpg' %}" alt="About">
@@ -226,6 +228,8 @@
             </path>
             </svg>
             </div>
+
+                
 
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script src="{% static 'flarebit_site/assets/js/vendor/jquery-3.7.1.min.js' %}"></script>
