@@ -241,12 +241,12 @@ def send_email(request):
             
             if not all([name, user_email, subject, message]):
                 messages.error(request, 'Please fill in all fields.')
-                return redirect('/contact?#contact-sec')
+                return redirect('/contact?#message-alert')
             
             # Önce e-posta alıcıları olup olmadığını kontrol edelim
             if not contact_emails:
                 messages.error(request, 'No contact email addresses configured in the system.')
-                return redirect('/contact?#contact-sec')
+                return redirect('/contact?#message-alert')
 
             # HTML e-posta içeriği
             html_content = f"""
@@ -331,18 +331,18 @@ def send_email(request):
                 )
 
                 messages.success(request, 'Your message has been sent. We will contact you as soon as possible.')
-                return redirect('/contact?#contact-sec')
+                return redirect('/contact?#message-alert')
 
             except Exception as e:
                 print(f"Hata detayı: {str(e)}")  # Hatayı konsola yazdıralım
                 messages.error(request, f'An error occurred: {str(e)}')
-                return redirect('/contact?#contact-sec')
+                return redirect('/contact?#message-alert')
 
         except Exception as e:
             print(f"Genel hata detayı: {str(e)}")  # Genel hatayı konsola yazdıralım
             messages.error(request, f'An error occurred: {str(e)}')
-            return redirect('/contact?#contact-sec')
-    return redirect('/contact?#contact-sec')
+            return redirect('/contact?#message-alert')
+    return redirect('/contact?#message-alert')
 
 
 from django.db import transaction
@@ -378,7 +378,6 @@ def request_a_quote(request):
 
                     messages.success(request, "Your message has been sent. We will contact you as soon as possible.")
             except Exception as e:
-                # Opsiyonel: Hata günlüğü veya gelişmiş işleme
                 return redirect(request.META.get('HTTP_REFERER', '/'))
 
             return redirect(request.META.get('HTTP_REFERER', '/'))
