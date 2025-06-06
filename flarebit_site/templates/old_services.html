@@ -6,8 +6,8 @@
             <div class="container">
                 <div class="row gy-4">
                     {% if services %}
-                    
-                        <!-- <div class="col-md-6 col-xl-4">
+                        {% for service in services %}
+                        <div class="col-md-6 col-xl-4">
                             <div class="service-card">
                                 <div class="service-card_number">S</div>
                                 <div class="shape-icon">
@@ -18,36 +18,15 @@
                                     <a href="/services/{{ service.slug }}">{{ service.title }}</a>
                                 </h3>
                                 <p class="service-card_text">{{ service.description|safe|truncatechars:40 }}</p>
-
+                                <!-- <a href="/services/{{ service.slug }}" class="th-btn">
+                                    Read More<i class="fa-regular fa-arrow-right ms-2"></i>
+                                </a> -->
                                 <div class="bg-shape">
                                     <img src="/static/flarebit_site/assets/img/bg/service_card_bg.png" alt="bg">
                                 </div>
                             </div>
-                        </div> -->
-
-                        {% for service in services %}
-                            
-                                <div class="col-md-6 col-xl-4">
-                                    <a href="/services/{{ service.slug }}">
-                                        <div class="service-grid7 th-ani">
-                                            <a href="/services/{{ service.slug }}">
-                                                <div class="service-grid7_icon">
-                                                    <img src="{{ service.icon.url }}" alt="Icon">
-                                                </div>
-                                            </a>
-                                            <a href="/services/{{ service.slug }}">
-                                                <div class="service-grid7_content">
-                                                    <h3 class="box-title">
-                                                        <a href="/services/{{ service.slug }}">{{ service.title }}</a>
-                                                    </h3>
-                                                    <p class="service-grid7_text">{{ service.description|safe|truncatechars:40 }}</p>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </a>
-                                </div>
-                         
-                            {% endfor %}
+                        </div>
+                        {% endfor %}
                     {% else %}
                         <div class="col-12">
                             <div class="alert alert-warning" role="alert">

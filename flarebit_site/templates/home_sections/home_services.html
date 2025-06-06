@@ -13,6 +13,7 @@
                 <div class="swiper th-slider has-shadow" id="serviceSlider7" data-slider-options='{"breakpoints":{"0":{"slidesPerView":1},"576":{"slidesPerView":"1"},"768":{"slidesPerView":"2"},"992":{"slidesPerView":"3"},"1200":{"slidesPerView":"4"}}}'>
                     <div class="swiper-wrapper">
                         {% for service in services %}
+                        <a href="/services/{{ service.slug }}">
                             <div class="swiper-slide">
                                 <div class="service-grid7 th-ani">
                                     <div class="service-grid7_icon">
@@ -22,13 +23,14 @@
                                         <h3 class="box-title">
                                             <a href="/services/{{ service.slug }}">{{ service.title }}</a>
                                         </h3>
-                                        <p class="service-grid7_text">{{ service.description|safe|truncatechars:40 }}</p>
-                                        <a href="/services/{{ service.slug }}" class="line-btn">
+                                        <p class="service-grid7_text">{{ service.description|safe|truncatechars:50 }}</p>
+                                        <!-- <a href="/services/{{ service.slug }}" class="line-btn">
                                             Learn More<i class="fa-regular fa-arrow-right"></i>
-                                        </a>
+                                        </a> -->
                                     </div>
                                 </div>
                             </div>
+                        </a>
                         {% endfor %}
                     </div>
                 </div>
