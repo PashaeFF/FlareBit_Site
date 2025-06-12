@@ -19,9 +19,9 @@
                                     <div class="service-grid7_icon">
                                         <img src="{{ service.icon.url }}" alt="Icon">
                                     </div>
-                                    <div class="service-grid7_content">
+                                    <div class="service-grid7_content" style="min-height: 200px;">
                                         <h3 class="box-title">
-                                            <a href="/services/{{ service.slug }}">{{ service.title|truncatechars:20 }}</a>
+                                            <a href="/services/{{ service.slug }}">{{ service.title }}</a>
                                         </h3>
                                         <p class="service-grid7_text">{{ service.description|safe|truncatechars:50 }}</p>
                                         <!-- <a href="/services/{{ service.slug }}" class="line-btn">
