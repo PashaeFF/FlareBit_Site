@@ -2,6 +2,58 @@
 
 {% block content %}
 {% include 'sections/cover_with_nav.html' %}
+<style>
+.blog-content-safe {
+    /* İçeriği izole et */
+    position: relative;
+    overflow: hidden;
+    word-wrap: break-word;
+    
+    /* İçerik stillerini normalize et */
+    line-height: 1.6;
+    color: inherit;
+    font-family: inherit;
+    
+    /* İçerik elemanları için temel stiller */
+}
+
+.blog-content-safe * {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.blog-content-safe img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 15px auto;
+}
+
+.blog-content-safe iframe {
+    max-width: 100%;
+    aspect-ratio: 16/9;
+}
+
+.blog-content-safe h1, 
+.blog-content-safe h2, 
+.blog-content-safe h3, 
+.blog-content-safe h4, 
+.blog-content-safe h5, 
+.blog-content-safe h6 {
+    margin: 20px 0 10px 0;
+    line-height: 1.3;
+}
+
+.blog-content-safe p {
+    margin: 15px 0;
+}
+
+.blog-content-safe ul, 
+.blog-content-safe ol {
+    margin: 15px 0;
+    padding-left: 30px;
+}
+</style>
         <section class="th-blog-wrapper blog-details space-top space-extra-bottom">
             <div class="container">
                 <div class="row">
