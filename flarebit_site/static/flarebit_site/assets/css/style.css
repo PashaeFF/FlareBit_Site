@@ -1909,7 +1909,7 @@ textarea.is-invalid{
     display:none
 }
 .th-btn.style-radius{
-    border-radius:100px;
+    border-radius:5px;
     padding:18px 40px
 }
 @media (max-width: 375px){
