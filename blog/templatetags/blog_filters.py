@@ -14,7 +14,7 @@ def clean_html(value):
     
     # Kaldırılacak tehlikeli etiketler
     dangerous_tags = [
-        'html', 'head', 'body'
+        'html', 'head', 'body', 'style', 'script'
     ]
     
     # Tehlikeli etiketleri kaldır (açılış ve kapanış)
