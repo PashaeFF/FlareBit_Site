@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% load blog_filters %}
 
 {% block content %}
 {% include 'sections/cover_with_nav.html' %}
@@ -72,8 +73,8 @@
                                     {{ blog.created_at|date:"d F Y" }}
                                 </div>
                                 <h2 class="blog-title">{{ blog.title }}</h2>
-                                <div class="blog-content-safe">
-                                    {{ blog.description|safe }}
+                                <div class="blog-description">
+                                    {{ blog.description|clean_html }}
                                 </div>
                                 {% if blog.link %}
                                     <div style="text-align: center;">
