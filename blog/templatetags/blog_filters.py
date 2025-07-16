@@ -14,9 +14,7 @@ def clean_html(value):
     
     # Kaldırılacak tehlikeli etiketler
     dangerous_tags = [
-        'html', 'head', 'body', 'title', 'meta', 'link', 'style', 'script',
-        'form', 'input', 'button', 'select', 'textarea', 'iframe', 'embed',
-        'object', 'applet', 'frame', 'frameset', 'base', 'basefont'
+        'html', 'head', 'body'
     ]
     
     # Tehlikeli etiketleri kaldır (açılış ve kapanış)
