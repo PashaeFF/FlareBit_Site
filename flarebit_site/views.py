@@ -398,27 +398,45 @@ def request_a_quote(request):
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
+# def clean_dangerous_html(content):
+#     """Tehlikeli HTML etiketlerini kaldırır"""
+#     if not content:
+#         return content
+    
+#     dangerous_tags = [
+#         'html', 'head', 'body', 'title', 'meta', 'link', 'style', 'script',
+#         'form', 'input', 'button', 'select', 'textarea', 'iframe', 'embed',
+#         'object', 'applet', 'frame', 'frameset', 'base', 'basefont'
+#     ]
+    
+#     for tag in dangerous_tags:
+#         # Açılış etiketleri
+#         pattern = r'<\s*' + tag + r'[^>]*?>'
+#         content = re.sub(pattern, '', content, flags=re.IGNORECASE)
+        
+#         # Kapanış etiketleri
+#         pattern = r'<\s*/\s*' + tag + r'\s*>'
+#         content = re.sub(pattern, '', content, flags=re.IGNORECASE)
+    
+#     content = re.sub(r'\n\s*\n', '\n', content)
+#     return content.strip()
+
+
 def clean_dangerous_html(content):
     """Tehlikeli HTML etiketlerini kaldırır"""
-    if not content:
-        return content
-    
-    dangerous_tags = [
-        'html', 'head', 'body', 'title', 'meta', 'link', 'style', 'script',
-        'form', 'input', 'button', 'select', 'textarea', 'iframe', 'embed',
-        'object', 'applet', 'frame', 'frameset', 'base', 'basefont'
+    # Body, html, head, script gibi etiketleri kaldır
+    cleaned_content = content
+    dangerous_patterns = [
+        r'<\s*/?body[^>]*>',
+        r'<\s*/?html[^>]*>',
+        r'<\s*/?head[^>]*>',
+        r'<\s*script[^>]*>.*?</script>',
+        r'<\s*style[^>]*>.*?</style>',
     ]
     
-    for tag in dangerous_tags:
-        # Açılış etiketleri
-        pattern = r'<\s*' + tag + r'[^>]*?>'
-        content = re.sub(pattern, '', content, flags=re.IGNORECASE)
-        
-        # Kapanış etiketleri
-        pattern = r'<\s*/\s*' + tag + r'\s*>'
-        content = re.sub(pattern, '', content, flags=re.IGNORECASE)
+    for pattern in dangerous_patterns:
+        cleaned_content = re.sub(pattern, '', cleaned_content, flags=re.IGNORECASE | re.DOTALL)
     
-    content = re.sub(r'\n\s*\n', '\n', content)
-    return content.strip()
-
+    content = cleaned_content
+    return content
 

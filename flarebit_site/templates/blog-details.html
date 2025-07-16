@@ -2,69 +2,6 @@
 
 {% block content %}
 {% include 'sections/cover_with_nav.html' %}
-<style>
-.blog-content-isolated {
-    /* İçeriği tamamen izole et */
-    all: initial;
-    
-    /* Temel font ve renk ayarları */
-    font-family: inherit;
-    color: #333;
-    line-height: 1.6;
-    font-size: 16px;
-    
-    /* Container özellikleri */
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-    word-wrap: break-word;
-    box-sizing: border-box;
-}
-
-.blog-content-isolated * {
-    /* Tüm alt elemanları sınırla */
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    position: relative !important;
-}
-
-.blog-content-isolated img {
-    max-width: 100% !important;
-    height: auto !important;
-    display: block !important;
-    margin: 15px auto !important;
-}
-
-.blog-content-isolated iframe {
-    max-width: 100% !important;
-    height: auto !important;
-}
-
-/* Ana sayfa stillerini geçersiz kıl */
-.blog-content-isolated h1,
-.blog-content-isolated h2,
-.blog-content-isolated h3,
-.blog-content-isolated h4,
-.blog-content-isolated h5,
-.blog-content-isolated h6 {
-    font-family: inherit !important;
-    margin: 20px 0 10px 0 !important;
-    line-height: 1.3 !important;
-    color: #333 !important;
-}
-
-.blog-content-isolated p {
-    margin: 15px 0 !important;
-    line-height: 1.6 !important;
-}
-
-.blog-content-isolated ul,
-.blog-content-isolated ol {
-    margin: 15px 0 !important;
-    padding-left: 30px !important;
-}
-</style>
         <section class="th-blog-wrapper blog-details space-top space-extra-bottom">
             <div class="container">
                 <div class="row">
@@ -83,8 +20,8 @@
                                     {{ blog.created_at|date:"d F Y" }}
                                 </div>
                                 <h2 class="blog-title">{{ blog.title }}</h2>
-                                <div class="blog-content-isolated">
-                                    {{ blog.description|safe }}
+                                <div class="blog-description">
+                                    {{ blog.cleaned_description|safe }}
                                 </div>
                                 {% if blog.link %}
                                     <div style="text-align: center;">
@@ -185,20 +122,6 @@
                                     {% endfor %}
                                 </div>
                             </div>
-                            <!-- <div class="widget widget_tag_cloud">
-                                <h3 class="widget_title">Popular Tags</h3>
-                                <div class="tagcloud">
-                                    <a href="blog.html">Technology</a>
-                                    <a href="blog.html">Advice</a>
-                                    <a href="blog.html">Solution</a>
-                                    <a href="blog.html">Consultion</a>
-                                    <a href="blog.html">Business</a>
-                                    <a href="blog.html">Services</a>
-                                    <a href="blog.html">Start Up</a>
-                                    <a href="blog.html">Agency</a>
-                                    <a href="blog.html">Software</a>
-                                </div>
-                            </div> -->
                         </aside>
                     </div>
                     {% endif %}
