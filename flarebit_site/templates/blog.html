@@ -28,7 +28,7 @@
                                         <h2 class="blog-title">
                                             <a href="/blog/{{ blog.category.slug }}/{{ blog.slug }}">{{ blog.title }}</a>
                                         </h2>
-                                        <p class="blog-text">{% spaceless %}{{ blog.description|striptags|safe|truncatechars:100 }}...{% endspaceless %}</p>
+                                        <p class="blog-text">{% spaceless %}{{ blog.description|striptags|truncatechars:100 }}...{% endspaceless %}</p>
                                         <a href="/blog/{{ blog.category.slug }}/{{ blog.slug }}" class="line-btn">Read More</a>
                                     </div>
                                 </div>
