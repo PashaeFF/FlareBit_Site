@@ -162,9 +162,9 @@ def blog_category(request, slug):
     for blog in blogs:
         if blog.description:
             
-            blog.description = mark_safe(clean_dangerous_html(blog.description))
+            blog.cleaned_description = mark_safe(clean_dangerous_html(blog.description))
         else:
-            blog.description = ""
+            blog.cleaned_description = ""
 
     
     context = {
