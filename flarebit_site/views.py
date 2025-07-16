@@ -14,6 +14,8 @@ from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from flarebit_site.serializers import ProjectRequestSerializer, ProjectFiles
 import os
+import re
+from django.utils.safestring import mark_safe
 
 
 def home(request):
@@ -178,6 +180,13 @@ def blog_details(request, category_slug, slug):
         settings = SiteSettings.objects.first()
         categories = BlogCategory.objects.filter(is_active=True)
         blog = Blog.objects.get(slug=slug)
+        
+        # Blog description'ını temizle
+        if blog.description:
+            blog.cleaned_description = mark_safe(clean_dangerous_html(blog.description))
+        else:
+            blog.cleaned_description = ""
+        
         whatsapp_number = WhatsappNumber.objects.filter(is_active=True, general_number=True).first()
         phone_number = PhoneNumber.objects.filter(is_active=True).first()
         recent_blogs = Blog.objects.filter(is_active=True).order_by('-created_at')[:5]
@@ -387,5 +396,29 @@ def request_a_quote(request):
                     messages.error(request, f"{field}: {error}")
             return redirect(request.META.get('HTTP_REFERER', '/'))
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+def clean_dangerous_html(content):
+    """Tehlikeli HTML etiketlerini kaldırır"""
+    if not content:
+        return content
+    
+    dangerous_tags = [
+        'html', 'head', 'body', 'title', 'meta', 'link', 'style', 'script',
+        'form', 'input', 'button', 'select', 'textarea', 'iframe', 'embed',
+        'object', 'applet', 'frame', 'frameset', 'base', 'basefont'
+    ]
+    
+    for tag in dangerous_tags:
+        # Açılış etiketleri
+        pattern = r'<\s*' + tag + r'[^>]*?>'
+        content = re.sub(pattern, '', content, flags=re.IGNORECASE)
+        
+        # Kapanış etiketleri
+        pattern = r'<\s*/\s*' + tag + r'\s*>'
+        content = re.sub(pattern, '', content, flags=re.IGNORECASE)
+    
+    content = re.sub(r'\n\s*\n', '\n', content)
+    return content.strip()
 
 
