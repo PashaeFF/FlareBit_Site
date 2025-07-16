@@ -20,7 +20,9 @@
                                     {{ blog.created_at|date:"d F Y" }}
                                 </div>
                                 <h2 class="blog-title">{{ blog.title }}</h2>
-                                <p>{{ blog.description|safe }}</p>
+                                <div class="blog-content-safe">
+                                    {{ blog.description|safe }}
+                                </div>
                                 {% if blog.link %}
                                     <div style="text-align: center;">
                                         <a class="btn btn-primary" style="margin-top: 20px;" href="{{ blog.link }}" target="_blank">
