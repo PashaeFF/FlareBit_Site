@@ -159,12 +159,12 @@ def blog_category(request, slug):
         blogs = paginator.page(paginator.num_pages)
 
 
-    for blog in blogs:
-        if blog.description:
+    # for blog in blogs:
+    #     if blog.description:
             
-            blog.cleaned_description = mark_safe(clean_dangerous_html(blog.description))
-        else:
-            blog.cleaned_description = ""
+    #         blog.cleaned_description = mark_safe(clean_dangerous_html(blog.description))
+    #     else:
+    #         blog.cleaned_description = ""
 
     
     context = {
