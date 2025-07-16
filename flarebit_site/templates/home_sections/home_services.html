@@ -10,37 +10,24 @@
                     </div>
                 </div>
             </div>
-            <div class="slider-area">
-                <div class="swiper th-slider has-shadow" id="serviceSlider7" data-slider-options='{"breakpoints":{"0":{"slidesPerView":1},"576":{"slidesPerView":"1"},"768":{"slidesPerView":"2"},"992":{"slidesPerView":"3"},"1200":{"slidesPerView":"4"}}}'>
-                    <div class="swiper-wrapper">
-                        {% for service in services %}
-                        <a href="/services/{{ service.slug }}">
-                            <div class="swiper-slide">
-                                <div class="service-grid7 th-ani">
-                                    <div class="service-grid7_icon">
-                                        <img src="{{ service.icon.url }}" alt="Icon">
-                                    </div>
-                                    <div class="service-grid7_content" style="min-height: 150px;max-height: 150px;">
-                                        <h3 class="box-title">
-                                            <a href="/services/{{ service.slug }}">{{ service.title|truncatechars:40 }}</a>
-                                        </h3>
-                                        <p class="service-grid7_text">{{ service.description|striptags|truncatechars:50 }}</p>
-                                        <!-- <a href="/services/{{ service.slug }}" class="line-btn">
-                                            Learn More<i class="fa-regular fa-arrow-right"></i>
-                                        </a> -->
-                                    </div>
-                                </div>
+            <div class="row justify-content-center">
+                {% for service in services|slice:":6" %}
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <a href="/services/{{ service.slug }}">
+                        <div class="service-grid7 th-ani">
+                            <div class="service-grid7_icon">
+                                <img src="{{ service.icon.url }}" alt="Icon">
                             </div>
-                        </a>
-                        {% endfor %}
-                    </div>
+                            <div class="service-grid7_content" style="min-height: 150px;max-height: 150px;">
+                                <h3 class="box-title">
+                                    <a href="/services/{{ service.slug }}">{{ service.title|truncatechars:40 }}</a>
+                                </h3>
+                                <p class="service-grid7_text">{{ service.description|striptags|truncatechars:50 }}</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-                <button data-slider-prev="#serviceSlider7" class="slider-arrow slider-prev">
-                    <i class="far fa-arrow-left"></i>
-                </button>
-                <button data-slider-next="#serviceSlider7" class="slider-arrow slider-next">
-                    <i class="far fa-arrow-right"></i>
-                </button>
+                {% endfor %}
             </div>
         </div>
     </section>
